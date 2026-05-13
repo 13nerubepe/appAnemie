@@ -1,0 +1,20 @@
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 0 8px;
+  padding-left: 4px;
+}
+
+.form-list {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.btn-analyser {
+  margin: 24px 0 32px;
+  --border-radius: 50px;
+}

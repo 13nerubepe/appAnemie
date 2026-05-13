@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>IMAS AI — Anémie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Carte de bienvenue -->
+  <div class="welcome-card">
+    <p class="welcome-sub">Bonjour, Dr. {{ username }}</p>
+    <h2 class="welcome-title">Détection de l'anémie</h2>
+    <p class="welcome-desc">Enfants de moins de 5 ans</p>
+  </div>
+
+  <!-- Statistiques rapides -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-number">{{ totalConsultations }}</span>
+      <span class="stat-label">Consultations</span>
+    </div>
+    <div class="stat-card danger">
+      <span class="stat-number">{{ casAnemie }}</span>
+      <span class="stat-label">Cas anémie</span>
+    </div>
+    <div class="stat-card success">
+      <span class="stat-number">{{ casNormaux }}</span>
+      <span class="stat-label">Normaux</span>
+    </div>
+  </div>
+
+  <!-- Actions principales -->
+  <h3 class="section-title">Actions</h3>
+
+  <ion-card class="action-card" button="" (click)="navigate('/formulaire')">
+    <ion-card-content>
+      <div class="action-row">
+        <div class="action-icon blue">
+          <ion-icon name="person-add-outline"></ion-icon>
+        </div>
+        <div class="action-text">
+          <strong>Nouveau patient</strong>
+          <p>Saisir les facteurs et lancer l'analyse</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="action-card" button="" (click)="navigate('/historique')">
+    <ion-card-content>
+      <div class="action-row">
+        <div class="action-icon green">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="action-text">
+          <strong>Historique</strong>
+          <p>Consulter les analyses précédentes</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="action-card" button="" (click)="navigate('/graphiques')">
+    <ion-card-content>
+      <div class="action-row">
+        <div class="action-icon amber">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+        </div>
+        <div class="action-text">
+          <strong>Graphiques</strong>
+          <p>Facteurs influençant l'anémie</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="action-arrow"></ion-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

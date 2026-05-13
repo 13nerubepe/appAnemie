@@ -1,0 +1,63 @@
+<ion-content class="ion-padding" [fullscreen]="true">
+  <div class="login-wrapper">
+
+    <!-- Card décorative arrière -->
+    <div class="card-bg card-rotate-pos"></div>
+    <div class="card-bg card-rotate-neg"></div>
+
+    <!-- Formulaire principal -->
+    <form #loginForm="ngForm" class="login-card" >
+
+      <!-- Logo + Titre -->
+      <div class="login-header">
+<!--        <img src="assets/reforme.png" width="72" height="72" alt="Logo" />-->
+        <h1>ANEMIA CAMEROUN</h1>
+        <p>Enter your username and password to access your account.</p>
+      </div>
+
+      <!-- Username -->
+      <div class="field">
+        <label for="username">Username</label>
+        <ion-input
+          id="username"
+          name="username"
+          type="text"
+          [(ngModel)]="username"
+          fill="outline"
+          required="">
+        </ion-input>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <label for="password">Password</label>
+        <ion-input
+          id="password"
+          name="password"
+          type="password"
+          [(ngModel)]="password"
+          fill="outline"
+          required="">
+        </ion-input>
+      </div>
+
+      <!-- Bouton -->
+      <ion-button expand="block" shape="round" type="submit" [disabled]="loading">
+        {{ loading ? 'Connexion...' : 'Login' }}
+      </ion-button>
+
+    </form>
+  </div>
+
+  <!-- Toast -->
+<!--  <ion-toast-->
+<!--    [isOpen]="showToast"-->
+<!--    [message]="toastMessage"-->
+<!--    [color]="toastColor"-->
+<!--    duration="3000"-->
+<!--    position="top"-->
+<!--    (didDismiss)="showToast = false">-->
+<!--  </ion-toast>-->
+
+</ion-content>
+

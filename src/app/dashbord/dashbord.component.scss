@@ -1,0 +1,101 @@
+.welcome-card {
+  background: var(--ion-color-primary);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  color: white;
+
+  .welcome-sub {
+    font-size: 13px;
+    opacity: 0.8;
+    margin: 0 0 4px;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  .welcome-desc {
+    font-size: 13px;
+    opacity: 0.75;
+    margin: 0;
+  }
+}
+
+.stats-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .stat-card {
+    flex: 1;
+    background: var(--ion-card-background);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+    .stat-number {
+      display: block;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ion-color-primary);
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 11px;
+      color: var(--ion-color-medium);
+      margin-top: 4px;
+    }
+
+    &.danger .stat-number { color: var(--ion-color-danger); }
+    &.success .stat-number { color: var(--ion-color-success); }
+  }
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0 0 12px;
+}
+
+.action-card {
+  margin: 0 0 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  ion-card-content { padding: 16px; }
+
+  .action-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .action-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+
+    &.blue   { background: #e8f0fe; color: #1a73e8; }
+    &.green  { background: #e6f4ea; color: #1e8e3e; }
+    &.amber  { background: #fef3e2; color: #e37400; }
+  }
+
+  .action-text {
+    flex: 1;
+    strong { font-size: 15px; display: block; margin-bottom: 2px; }
+    p { font-size: 12px; color: var(--ion-color-medium); margin: 0; }
+  }
+
+  .action-arrow { color: var(--ion-color-medium); font-size: 18px; }
+}
