@@ -5,13 +5,23 @@ export const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'bienvenue',
     pathMatch: 'full',
   },
+  // {
+  //   path: 'login',
+  //   loadComponent: () =>
+  //     import('./authentification/login/login.component').then((m) => m.LoginComponent),
+  // },
   {
-    path: 'login',
+    path: 'bienvenue',
     loadComponent: () =>
-      import('./authentification/login/login.component').then((m) => m.LoginComponent),
+      import('./authentification/bienvenue/bienvenue.component').then((m) => m.BienvenueComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./authentification/register/register.component').then((m) => m.RegisterComponent),
   },
 
   {
@@ -20,10 +30,15 @@ export const routes: Routes = [
       import('./dashbord/dashbord.component').then((m) => m.DashbordComponent),
   },
 
+  // {
+  //     path: 'patient',
+  //   loadComponent: () =>
+  //     import('./patient/patient.component').then((m) => m.PatientComponent),
+  // },
   {
-      path: 'patient',
+    path: 'resul',
     loadComponent: () =>
-      import('./patient/patient.component').then((m) => m.PatientComponent),
+      import('./resultats/resultats.component').then((m) => m.ResultatsComponent),
   },
 
   {
