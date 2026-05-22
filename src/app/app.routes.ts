@@ -27,6 +27,12 @@ export const routes: Routes = [
   },
 
   {
+    path: 'resultats',
+    loadComponent: () =>
+      import('./resultats/resultats.component').then((m) => m.ResultatsComponent),
+  },
+
+  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
   },

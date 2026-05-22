@@ -1,129 +1,206 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Nouveau patient</ion-title>
+    <div class="toolbar-inner">
+      <div class="toolbar-logo">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </div>
+      <div>
+        <div class="toolbar-title">Nouveau patient</div>
+        <div class="toolbar-sub">Saisie des facteurs</div>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <form #patientForm="ngForm" (ngSubmit)="analyser()">
+<ion-content [fullscreen]="true">
+  <div class="form-content">
+    <form #patientForm="ngForm" (ngSubmit)="onSubmit()">
 
-    <!-- Informations de base -->
-    <div class="section-title">Informations de base</div>
+      <!-- Informations générales -->
+      <div class="form-section">
+        <div class="section-label">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <span>Informations générales</span>
+        </div>
+        <div class="form-card">
+          <div class="field-row">
+            <div class="fld">
+              <label>Prénom</label>
+              <ion-input name="prenom" [(ngModel)]="patient.prenom"
+                         type="text" placeholder="Amara" fill="outline" required>
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Nom</label>
+              <ion-input name="nom" [(ngModel)]="patient.nom"
+                         type="text" placeholder="Nkembi" fill="outline" required>
+              </ion-input>
+            </div>
+          </div>
 
-    <ion-list lines="full" class="form-list">
+          <div class="field-row">
+            <div class="fld">
+              <label>Âge (mois)</label>
+              <ion-input name="age" [(ngModel)]="patient.age"
+                         type="number" placeholder="24" fill="outline" required>
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Sexe</label>
+              <div class="radio-group">
+                <div class="radio-opt" [class.sel]="patient.sexe === 'M'"
+                     (click)="patient.sexe = 'M'">Masculin</div>
+                <div class="radio-opt" [class.sel]="patient.sexe === 'F'"
+                     (click)="patient.sexe = 'F'">Féminin</div>
+              </div>
+            </div>
+          </div>
 
-      <ion-item>
-        <ion-label position="stacked">Âge (mois)</ion-label>
-        <ion-input name="age" type="number" [(ngModel)]="patient.age"
-                   placeholder="Ex: 24" required min="0" max="59">
-        </ion-input>
-      </ion-item>
+          <div class="fld">
+            <label>Région</label>
+            <ion-select name="region" [(ngModel)]="patient.region"
+                        placeholder="Sélectionner..." fill="outline">
+              <ion-select-option value="centre">Centre</ion-select-option>
+              <ion-select-option value="littoral">Littoral</ion-select-option>
+              <ion-select-option value="ouest">Ouest</ion-select-option>
+              <ion-select-option value="nord">Nord</ion-select-option>
+              <ion-select-option value="sud">Sud</ion-select-option>
+              <ion-select-option value="adamaoua">Adamaoua</ion-select-option>
+              <ion-select-option value="est">Est</ion-select-option>
+              <ion-select-option value="nord-ouest">Nord-Ouest</ion-select-option>
+              <ion-select-option value="sud-ouest">Sud-Ouest</ion-select-option>
+              <ion-select-option value="extreme-nord">Extrême-Nord</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+      </div>
 
-      <ion-item>
-        <ion-label position="stacked">Sexe</ion-label>
-        <ion-select name="sexe" [(ngModel)]="patient.sexe"
-                    placeholder="Sélectionner" required>
-          <ion-select-option value="M">Masculin</ion-select-option>
-          <ion-select-option value="F">Féminin</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <!-- Facteurs biologiques -->
+      <div class="form-section">
+        <div class="section-label">
+          <ion-icon name="water-outline"></ion-icon>
+          <span>Facteurs biologiques</span>
+        </div>
+        <div class="form-card">
+          <div class="field-row">
+            <div class="fld">
+              <label>Hémoglobine (g/dL)</label>
+              <ion-input name="hemoglobine" [(ngModel)]="patient.hemoglobine"
+                         type="number" placeholder="11.5" fill="outline" required>
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Hématocrite (%)</label>
+              <ion-input name="hematocrite" [(ngModel)]="patient.hematocrite"
+                         type="number" placeholder="34" fill="outline" required>
+              </ion-input>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="fld">
+              <label>VGM (fL)</label>
+              <ion-input name="vgm" [(ngModel)]="patient.vgm"
+                         type="number" placeholder="78" fill="outline">
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Fer sérique (µg/dL)</label>
+              <ion-input name="fer" [(ngModel)]="patient.fer"
+                         type="number" placeholder="60" fill="outline">
+              </ion-input>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="fld">
+              <label>TCMH (pg)</label>
+              <ion-input name="tcmh" [(ngModel)]="patient.tcmh"
+                         type="number" placeholder="27" fill="outline">
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Ferritine (ng/mL)</label>
+              <ion-input name="ferritine" [(ngModel)]="patient.ferritine"
+                         type="number" placeholder="30" fill="outline">
+              </ion-input>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <ion-item>
-        <ion-label position="stacked">Poids (kg)</ion-label>
-        <ion-input name="poids" type="number" [(ngModel)]="patient.poids"
-                   placeholder="Ex: 12.5" required>
-        </ion-input>
-      </ion-item>
+      <!-- Facteurs cliniques -->
+      <div class="form-section">
+        <div class="section-label">
+          <ion-icon name="pulse-outline"></ion-icon>
+          <span>Facteurs cliniques</span>
+        </div>
+        <div class="form-card">
+          <div class="field-row">
+            <div class="fld">
+              <label>Poids (kg)</label>
+              <ion-input name="poids" [(ngModel)]="patient.poids"
+                         type="number" placeholder="11.2" fill="outline">
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Taille (cm)</label>
+              <ion-input name="taille" [(ngModel)]="patient.taille"
+                         type="number" placeholder="85" fill="outline">
+              </ion-input>
+            </div>
+          </div>
 
-      <ion-item>
-        <ion-label position="stacked">Taille (cm)</ion-label>
-        <ion-input name="taille" type="number" [(ngModel)]="patient.taille"
-                   placeholder="Ex: 85" required>
-        </ion-input>
-      </ion-item>
+          <div class="fld">
+            <label>Type d'alimentation</label>
+            <ion-select name="alimentation" [(ngModel)]="patient.alimentation"
+                        placeholder="Sélectionner..." fill="outline">
+              <ion-select-option value="allaitement">Allaitement maternel</ion-select-option>
+              <ion-select-option value="diversification">Diversification alimentaire</ion-select-option>
+              <ion-select-option value="mixte">Alimentation mixte</ion-select-option>
+              <ion-select-option value="artificielle">Alimentation artificielle</ion-select-option>
+            </ion-select>
+          </div>
 
-    </ion-list>
+          <div class="fld">
+            <label>Paludisme récent</label>
+            <div class="radio-group">
+              <div class="radio-opt" [class.sel]="patient.paludisme === true"
+                   (click)="patient.paludisme = true">Oui</div>
+              <div class="radio-opt" [class.sel]="patient.paludisme === false"
+                   (click)="patient.paludisme = false">Non</div>
+            </div>
+          </div>
 
-    <!-- Facteurs environnementaux -->
-    <div class="section-title">Facteurs environnementaux</div>
+          <div class="fld">
+            <label>Supplémentation en fer</label>
+            <div class="radio-group">
+              <div class="radio-opt" [class.sel]="patient.supplementation === true"
+                   (click)="patient.supplementation = true">Oui</div>
+              <div class="radio-opt" [class.sel]="patient.supplementation === false"
+                   (click)="patient.supplementation = false">Non</div>
+            </div>
+          </div>
 
-    <ion-list lines="full" class="form-list">
+          <div class="fld">
+            <label>Statut vaccinal</label>
+            <div class="radio-group">
+              <div class="radio-opt" [class.sel]="patient.vaccine === true"
+                   (click)="patient.vaccine = true">Complet</div>
+              <div class="radio-opt" [class.sel]="patient.vaccine === false"
+                   (click)="patient.vaccine = false">Incomplet</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <ion-item>
-        <ion-label position="stacked">Région</ion-label>
-        <ion-select name="region" [(ngModel)]="patient.region"
-                    placeholder="Sélectionner" required>
-          <ion-select-option value="urbain">Urbain</ion-select-option>
-          <ion-select-option value="semi_urbain">Semi-urbain</ion-select-option>
-          <ion-select-option value="rural">Rural</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <!-- Bouton submit -->
+      <button class="submit-btn" type="submit" [disabled]="loading || patientForm.invalid">
+        <ion-icon name="analytics-outline"></ion-icon>
+        {{ loading ? 'Analyse en cours...' : 'Lancer la prédiction IA' }}
+      </button>
 
-      <ion-item>
-        <ion-label position="stacked">Accès à l'eau potable</ion-label>
-        <ion-select name="eau" [(ngModel)]="patient.eau"
-                    placeholder="Sélectionner" required>
-          <ion-select-option value="1">Oui</ion-select-option>
-          <ion-select-option value="0">Non</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Niveau éducation mère</ion-label>
-        <ion-select name="education_mere" [(ngModel)]="patient.education_mere"
-                    placeholder="Sélectionner" required>
-          <ion-select-option value="0">Aucun</ion-select-option>
-          <ion-select-option value="1">Primaire</ion-select-option>
-          <ion-select-option value="2">Secondaire</ion-select-option>
-          <ion-select-option value="3">Supérieur</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-    </ion-list>
-
-    <!-- Facteurs cliniques -->
-    <div class="section-title">Facteurs cliniques</div>
-
-    <ion-list lines="full" class="form-list">
-
-      <ion-item>
-        <ion-label position="stacked">Antécédents de paludisme</ion-label>
-        <ion-select name="paludisme" [(ngModel)]="patient.paludisme"
-                    placeholder="Sélectionner" required="">
-          <ion-select-option value="1">Oui</ion-select-option>
-          <ion-select-option value="0">Non</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Diversité alimentaire (0-10)</ion-label>
-        <ion-input name="alimentation" type="number"
-                   [(ngModel)]="patient.alimentation"
-                   placeholder="Ex: 6" min="0" max="10" required>
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Allaitement maternel</ion-label>
-        <ion-select name="allaitement" [(ngModel)]="patient.allaitement"
-                    placeholder="Sélectionner" required>
-          <ion-select-option value="1">Oui</ion-select-option>
-          <ion-select-option value="0">Non</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-    </ion-list>
-
-    <!-- Bouton analyser -->
-    <ion-button expand="block" shape="round" type="submit"
-                [disabled]="patientForm.invalid || loading"
-                class="btn-analyser">
-      <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-      <span *ngIf="!loading">Analyser</span>
-    </ion-button>
-
-  </form>
+    </form>
+  </div>
 </ion-content>

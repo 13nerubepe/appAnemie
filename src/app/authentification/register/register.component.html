@@ -1,0 +1,119 @@
+<ion-content [fullscreen]="true">
+  <div class="register-wrap">
+
+    <div class="deco deco-1"></div>
+    <div class="deco deco-2"></div>
+
+    <form #registerForm="ngForm" class="register-card">
+
+      <!-- Header -->
+      <div class="login-header">
+        <div class="badge">
+          <div class="dot"></div>
+          <span>Nouveau compte</span>
+        </div>
+        <h1>Créer un compte</h1>
+        <p>Remplissez les informations pour rejoindre la plateforme.</p>
+      </div>
+
+      <!-- Barre de progression -->
+      <div class="step-bar">
+        <div class="step active"></div>
+        <div class="step active"></div>
+        <div class="step"></div>
+      </div>
+
+      <!-- Prénom + Nom -->
+      <div class="row">
+        <div class="field">
+          <label>Prénom</label>
+          <div class="inp-wrap">
+            <ion-icon name="person-outline" class="field-icon"></ion-icon>
+            <ion-input name="firstName" type="text" [(ngModel)]="firstName"
+                       placeholder="Jean" fill="outline" required>
+            </ion-input>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nom</label>
+          <div class="inp-wrap">
+            <ion-icon name="person-outline" class="field-icon"></ion-icon>
+            <ion-input name="lastName" type="text" [(ngModel)]="lastName"
+                       placeholder="Dupont" fill="outline" required>
+            </ion-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="field">
+        <label>Email</label>
+        <div class="inp-wrap">
+          <ion-icon name="mail-outline" class="field-icon"></ion-icon>
+          <ion-input name="email" type="email" [(ngModel)]="email"
+                     placeholder="jean@exemple.com" fill="outline" required>
+          </ion-input>
+        </div>
+      </div>
+
+      <!-- Téléphone -->
+      <div class="field">
+        <label>Téléphone</label>
+        <div class="inp-wrap">
+          <ion-icon name="call-outline" class="field-icon"></ion-icon>
+          <ion-input name="phone" type="tel" [(ngModel)]="phone"
+                     placeholder="+237 6XX XXX XXX" fill="outline">
+          </ion-input>
+        </div>
+      </div>
+
+      <!-- Mot de passe + Confirmation -->
+      <div class="row">
+        <div class="field">
+          <label>Mot de passe</label>
+          <div class="inp-wrap">
+            <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+            <ion-input name="password" type="password" [(ngModel)]="password"
+                       placeholder="••••••••" fill="outline" required>
+            </ion-input>
+          </div>
+        </div>
+        <div class="field">
+          <label>Confirmer</label>
+          <div class="inp-wrap">
+            <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+            <ion-input name="confirmPassword" type="password" [(ngModel)]="confirmPassword"
+                       placeholder="••••••••" fill="outline" required>
+            </ion-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rôle -->
+      <div class="field">
+        <label>Rôle</label>
+        <div class="inp-wrap select-wrap">
+          <ion-icon name="medical-outline" class="field-icon"></ion-icon>
+          <ion-select name="role" [(ngModel)]="role"
+                      placeholder="Sélectionner un rôle..." fill="outline">
+            <ion-select-option value="medecin">Médecin</ion-select-option>
+            <ion-select-option value="infirmier">Infirmier(e)</ion-select-option>
+            <ion-select-option value="patient">Patient</ion-select-option>
+            <ion-select-option value="admin">Administrateur</ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+
+      <!-- Bouton -->
+      <ion-button expand="block" type="submit" [disabled]="loading" class="register-btn">
+        {{ loading ? 'Création...' : 'Créer mon compte' }}
+      </ion-button>
+
+      <p class="login-link">
+        Déjà inscrit ?
+        <a (click)="goToLogin()" tappable>Se connecter</a>
+      </p>
+
+    </form>
+  </div>
+</ion-content>

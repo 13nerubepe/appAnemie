@@ -1,3 +1,96 @@
-<p>
-  resultats works!
-</p>
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <div class="toolbar-inner">
+      <div class="toolbar-logo"><ion-icon name="analytics-outline"></ion-icon></div>
+      <div>
+        <div class="toolbar-title">Modèle IA</div>
+        <div class="toolbar-sub">Random Forest · v2.1</div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ia-content">
+
+    <!-- Score bannière -->
+    <div class="score-banner">
+      <div class="bub b1"></div>
+      <div class="bub b2"></div>
+      <div class="score-label">Précision globale</div>
+      <div class="score-pct">94.2%</div>
+      <div class="score-sub">Testé sur 248 patients · Cameroun 2025</div>
+    </div>
+
+    <!-- 4 métriques -->
+    <div class="metrics-grid">
+      <div class="metric" *ngFor="let m of metriques">
+        <div class="metric-num" [style.color]="m.color">{{ m.val }}</div>
+        <div class="metric-lbl">{{ m.label }}</div>
+      </div>
+    </div>
+
+    <!-- Matrice de confusion -->
+    <div class="chart-card">
+      <div class="chart-title">
+        <ion-icon name="grid-outline"></ion-icon>
+        Matrice de confusion
+      </div>
+      <div class="matrix-labels">
+        <div></div>
+        <div class="ml">Prédit +</div>
+        <div class="ml">Prédit −</div>
+      </div>
+      <div class="matrix-grid">
+        <div class="ml-row">Réel +</div>
+        <div class="matrix-cell mc-tp">
+          <div class="mc-num">87</div>
+          <div class="mc-lbl">Vrai Positif</div>
+        </div>
+        <div class="matrix-cell mc-fn">
+          <div class="mc-num">7</div>
+          <div class="mc-lbl">Faux Négatif</div>
+        </div>
+        <div class="ml-row">Réel −</div>
+        <div class="matrix-cell mc-fp">
+          <div class="mc-num">8</div>
+          <div class="mc-lbl">Faux Positif</div>
+        </div>
+        <div class="matrix-cell mc-tn">
+          <div class="mc-num">146</div>
+          <div class="mc-lbl">Vrai Négatif</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Importance des facteurs -->
+    <div class="chart-card">
+      <div class="chart-title">
+        <ion-icon name="podium-outline"></ion-icon>
+        Importance des facteurs
+      </div>
+      <div class="feat-list">
+        <div class="feat-bar" *ngFor="let f of features">
+          <span class="feat-name">{{ f.name }}</span>
+          <div class="feat-track">
+            <div class="feat-fill" [style.width.%]="f.pct" [style.background]="f.color"></div>
+          </div>
+          <span class="feat-pct">{{ f.pct }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courbe ROC info -->
+    <div class="roc-card">
+      <div class="roc-left">
+        <div class="roc-num">0.97</div>
+        <div class="roc-lbl">AUC-ROC</div>
+      </div>
+      <div class="roc-right">
+        <div class="roc-title">Excellente discrimination</div>
+        <div class="roc-desc">Le modèle distingue très bien les cas d'anémie des cas normaux.</div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

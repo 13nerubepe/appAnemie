@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {IonButton, IonContent, IonInput, IonToast} from "@ionic/angular/standalone";
+import {IonButton, IonContent, IonIcon, IonInput, IonToast} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-login',
@@ -8,9 +8,7 @@ import {IonButton, IonContent, IonInput, IonToast} from "@ionic/angular/standalo
   styleUrls: ['./login.component.scss'],
   imports: [
     FormsModule,
-    IonInput,
-    IonButton,
-    IonContent
+
   ]
 })
 export class LoginComponent {

@@ -6,7 +6,7 @@ import {
   IonCardContent,
   IonContent,
   IonHeader,
-  IonIcon, IonTitle,
+  IonIcon, IonLabel, IonTabBar, IonTabButton, IonTitle,
   IonToolbar
 } from "@ionic/angular/standalone";
 import {barChartOutline, chevronForwardOutline, logOutOutline, personAddOutline, timeOutline} from "ionicons/icons";
@@ -26,7 +26,10 @@ import {Router} from "@angular/router";
     IonButtons,
     IonToolbar,
     IonTitle,
-    IonButton
+    IonButton,
+    IonTabBar,
+    IonTabButton,
+    IonLabel
   ]
 })
 export class DashbordComponent  implements OnInit {
