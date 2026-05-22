@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   IonBackButton,
-  IonButton, IonButtons, IonContent, IonHeader,
+  IonButton, IonButtons, IonContent, IonHeader, IonIcon,
   IonInput,
   IonItem,
   IonLabel, IonList,
@@ -31,43 +31,34 @@ import {Router} from "@angular/router";
     IonToolbar,
     IonTitle,
     IonBackButton,
-    IonContent
+    IonContent,
+    IonIcon
   ]
 })
-export class PatientComponent  implements OnInit {
-  loading = false;
+// import { Component } from '@angular/core';
+// import { Router } from '@angular/router';
 
+@Component({ selector: 'app-formulaire', templateUrl: './formulaire.page.html', styleUrls: ['./formulaire.page.scss'] })
+export class FormulaireePage {
+  loading = false;
   patient = {
-    age: null,
-    sexe: '',
-    poids: null,
-    taille: null,
-    region: '',
-    eau: '',
-    education_mere: '',
-    paludisme: '',
-    alimentation: null,
-    allaitement: ''
+    prenom: '', nom: '', age: null, sexe: 'M', region: '',
+    hemoglobine: null, hematocrite: null, vgm: null,
+    fer: null, tcmh: null, ferritine: null,
+    poids: null, taille: null, alimentation: '',
+    paludisme: false, supplementation: false, vaccine: true
   };
 
-  // eslint-disable-next-line @angular-eslint/prefer-inject
-  constructor(private router: Router) {}
+  constructor(
+    // private router: Router
+  ) {}
 
-  ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
-
-  analyser() {
+  async onSubmit() {
     this.loading = true;
-
-    // TODO: appeler l'API ML ici
+    // Appel API modèle IA ici
     setTimeout(() => {
       this.loading = false;
-      // Naviguer vers la page résultats avec les données
-      this.router.navigate(['/resultats'], {
-        state: { patient: this.patient, resultat: null }
-      });
-    }, 1500);
+      this.router.navigate(['/resultat'], { state: { patient: this.patient } });
+    }, 2000);
   }
-
 }
