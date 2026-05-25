@@ -1,0 +1,11 @@
+@import '../shared.scss';
+ion-content { --background: $bg; }
+.legend {
+  margin-top: 12px;
+  .leg-item {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    .leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    span     { flex: 1; font-size: 13px; color: $text-medium; }
+    strong   { font-size: 13px; color: $primary; }
+  }
+}

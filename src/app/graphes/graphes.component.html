@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="toolbar-inner">
+      <div class="toolbar-logo">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+      </div>
+      <div>
+        <div class="toolbar-title">Graphiques</div>
+        <div class="toolbar-sub">Analyse EDS Cameroun 2018</div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="page-content">
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="podium-outline"></ion-icon>
+        Importance des variables (Random Forest)
+      </div>
+      <canvas id="barChart" height="300"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="pie-chart-outline"></ion-icon>
+        Répartition des cas · 3 987 enfants
+      </div>
+      <canvas id="donutChart" height="250"></canvas>
+      <div class="legend">
+        <div class="leg-item" *ngFor="let r of repartition">
+          <div class="leg-dot" [style.background]="r.color"></div>
+          <span>{{ r.label }}</span>
+          <strong>{{ r.pct }}%</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="analytics-outline"></ion-icon>
+        Hémoglobine par âge (g/dL)
+      </div>
+      <canvas id="lineChart" height="250"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="analytics-outline"></ion-icon>
+        Prévalence par tranche d'âge
+      </div>
+      <div class="bar-row" *ngFor="let t of tranches">
+        <span class="bar-label">{{ t.label }}</span>
+        <div class="bar-track">
+          <div class="bar-fill"
+               [style.width.%]="t.pct"
+               style="background:#1a237e">
+          </div>
+        </div>
+        <span class="bar-pct">{{ t.pct }}%</span>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
