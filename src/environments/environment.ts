@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:8000'
   // API_GATEWAY_URL: "http://localhost:7171",
   // API_AUTHSERVER_URL: "http://localhost:7000",
 

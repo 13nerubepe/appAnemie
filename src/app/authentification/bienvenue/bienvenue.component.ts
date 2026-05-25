@@ -8,6 +8,7 @@ import {IonButton, IonContent, IonIcon} from "@ionic/angular/standalone";
   selector: 'app-bienvenue',
   templateUrl: './bienvenue.component.html',
   styleUrls: ['./bienvenue.component.scss'],
+  standalone: true,
   imports: [
     IonButton,
     IonIcon,
@@ -16,13 +17,9 @@ import {IonButton, IonContent, IonIcon} from "@ionic/angular/standalone";
 })
 export class BienvenueComponent {
 
-  // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private router: Router) {
     addIcons({ heartOutline, arrowForwardOutline, shieldCheckmarkOutline });
   }
-
-  continuer() {
-    this.router.navigate(['/dashboard']);
-  }
+  continuer() { this.router.navigate(['/dashboard']); }
 
 }

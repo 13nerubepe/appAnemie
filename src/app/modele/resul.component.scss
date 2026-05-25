@@ -1,0 +1,54 @@
+@import '../shared.scss';
+ion-content { --background: $bg; }
+
+.score-banner {
+  background: linear-gradient(135deg, $primary, $primary-light);
+  border-radius: 20px; padding: 24px 20px; color: white;
+  margin-bottom: 16px; position: relative; overflow: hidden;
+  .bub { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.08); }
+  .b1  { width: 130px; height: 130px; top: -35px; right: -35px; }
+  .b2  { width: 80px;  height: 80px;  bottom: -20px; left: 20px; }
+  .sb-sub  { font-size: 12px; opacity: 0.75; margin: 0 0 4px; }
+  .sb-title { font-size: 26px; font-weight: 800; margin: 0 0 6px; }
+  .sb-desc  { font-size: 12px; opacity: 0.7; margin: 0; }
+}
+
+.metrics {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+  .metric {
+    background: white; border-radius: 12px; padding: 14px; text-align: center;
+    box-shadow: 0 2px 8px rgba(26,35,126,0.08);
+    .m-num { font-size: 20px; font-weight: 800; }
+    .m-lbl { font-size: 11px; color: $text-light; margin-top: 4px; }
+  }
+}
+
+.cls-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  .cls-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cls-lbl { font-size: 12px; color: $text-medium; width: 90px; flex-shrink: 0; }
+  .cls-n   { font-size: 12px; color: $text-light; width: 40px; text-align: right; }
+  .cls-pct { font-size: 12px; font-weight: 700; width: 40px; text-align: right; }
+}
+
+.comp {
+  display: flex; gap: 10px;
+  .comp-cell {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 16px 10px; background: $bg; border-radius: 12px; text-align: center;
+    position: relative;
+    ion-icon { font-size: 24px; color: $text-light; margin-bottom: 4px; }
+    strong   { font-size: 13px; color: $text-dark; }
+    span     { font-size: 11px; color: $text-light; }
+    &.winner {
+      background: $primary-pale; border: 2px solid $primary;
+      ion-icon { color: $primary; }
+    }
+    .win-badge {
+      position: absolute; top: -8px;
+      background: $primary; color: white;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px;
+    }
+  }
+}

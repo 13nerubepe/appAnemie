@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="toolbar-inner">
+      <div class="toolbar-logo"><ion-icon name="analytics-outline"></ion-icon></div>
+      <div>
+        <div class="toolbar-title">Modèles IA</div>
+        <div class="toolbar-sub">Random Forest · Régression Ordinale</div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="page-content">
+
+    <div class="score-banner">
+      <div class="bub b1"></div><div class="bub b2"></div>
+      <p class="sb-sub">Meilleur modèle</p>
+      <h2 class="sb-title">Random Forest</h2>
+      <p class="sb-desc">3 987 observations · EDS Cameroun 2018 · 18 variables</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric" *ngFor="let m of metriques">
+        <div class="m-num" [style.color]="m.color">{{ m.val }}</div>
+        <div class="m-lbl">{{ m.label }}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="grid-outline"></ion-icon>
+        Distribution des classes
+      </div>
+      <div class="cls-row" *ngFor="let c of classes">
+        <div class="cls-dot" [style.background]="c.color"></div>
+        <span class="cls-lbl">{{ c.label }}</span>
+        <div class="bar-track" style="flex:1">
+          <div class="bar-fill" [style.width.%]="c.pct" [style.background]="c.color"></div>
+        </div>
+        <span class="cls-n">{{ c.n }}</span>
+        <span class="cls-pct" [style.color]="c.color">{{ c.pct }}%</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="podium-outline"></ion-icon>
+        Importance des variables
+      </div>
+      <div class="bar-row" *ngFor="let f of features">
+        <span class="bar-label">{{ f.name }}</span>
+        <div class="bar-track">
+          <div class="bar-fill" [style.width.%]="f.pct" [style.background]="f.color"></div>
+        </div>
+        <span class="bar-pct" [style.color]="f.color">{{ f.pct }}%</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        Comparaison des modèles
+      </div>
+      <div class="comp">
+        <div class="comp-cell winner">
+          <ion-icon name="git-branch-outline"></ion-icon>
+          <strong>Random Forest</strong>
+          <span>Accuracy : 49.4%</span>
+          <span>F1 Macro : 45.1%</span>
+          <div class="win-badge">Meilleur</div>
+        </div>
+        <div class="comp-cell">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          <strong>Rég. Ordinale</strong>
+          <span>Accuracy : 49.1%</span>
+          <span>F1 Macro : 36.6%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

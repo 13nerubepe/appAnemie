@@ -1,40 +1,32 @@
 <ion-content [fullscreen]="true">
-  <div class="login-wrap">
-
+  <div class="wrap">
     <div class="bubble b1"></div>
     <div class="bubble b2"></div>
     <div class="bubble b3"></div>
 
     <div class="hero">
       <div class="logo-ring">
-        <ion-icon name="heart-outline" class="logo-icon"></ion-icon>
+        <ion-icon name="heart-outline"></ion-icon>
       </div>
-      <h1 class="app-title">IMAS AI</h1>
-      <p class="app-sub">Détection de l'anémie · Cameroun</p>
+      <h1>IMAS AI</h1>
+      <p>Détection de l'anémie · Cameroun</p>
     </div>
 
     <div class="card">
-      <h2 class="card-title">Bienvenue</h2>
-      <p class="card-desc">
-        Système intelligent de détection de l'anémie chez les enfants de moins de 5 ans.
-      </p>
+      <h2>Bienvenue</h2>
+      <p>Système intelligent de détection de l'anémie chez les enfants de moins de 5 ans.</p>
 
-      <ion-button
-        expand="block"
-        shape="round"
-        class="login-btn"
-        (click)="continuer()">
+      <button class="btn-start" (click)="continuer()">
         Commencer
-        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
-      </ion-button>
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </button>
 
-      <div class="secure-badge">
+      <div class="secure">
         <ion-icon name="shield-checkmark-outline"></ion-icon>
         <span>Données protégées · Usage médical</span>
       </div>
     </div>
 
-    <p class="version">v1.0.0 · IMAS AI Cameroun</p>
-
+    <p class="version">v1.0.0 · IMAS AI Cameroun · EDS 2018</p>
   </div>
 </ion-content>

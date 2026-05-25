@@ -1,124 +1,48 @@
 <ion-header>
   <ion-toolbar class="custom-toolbar">
     <div class="toolbar-inner">
-      <div class="toolbar-left">
-        <div class="toolbar-logo">
-          <ion-icon name="heart-outline"></ion-icon>
-        </div>
-        <div>
-          <div class="toolbar-title">IMAS AI</div>
-          <div class="toolbar-sub">Anémie · Enfants &lt;5 ans</div>
-        </div>
+      <div class="toolbar-logo"><ion-icon name="heart-outline"></ion-icon></div>
+      <div>
+        <div class="toolbar-title">IMAS AI</div>
+        <div class="toolbar-sub">Anémie · Enfants &lt; 5 ans</div>
       </div>
-      <ion-button fill="clear" class="logout-btn" (click)="logout()">
-        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
-      </ion-button>
     </div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only" style="color:white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="home-content">
+  <div class="page-content">
 
-    <!-- Carte bienvenue -->
-    <div class="welcome-card">
-      <div class="wd wd1"></div>
-      <div class="wd wd2"></div>
-      <div class="wd wd3"></div>
-      <div class="welcome-tag">
-        <ion-icon name="stethoscope-outline"></ion-icon>
-        <span>Médecin</span>
-      </div>
-      <p class="welcome-sub">Bonjour, Dr. {{ username }} 👋</p>
-      <h2 class="welcome-title">Détection de l'anémie</h2>
-      <p class="welcome-desc">Enfants de moins de 5 ans · Cameroun</p>
+    <div class="banner primary">
+      <div class="bub b1"></div><div class="bub b2"></div>
+      <p class="b-sub">Tableau de bord</p>
+      <h2 class="b-title">Détection de l'anémie</h2>
+      <p class="b-desc">EDS Cameroun 2018 · Random Forest · Régression Ordinale</p>
     </div>
 
-    <!-- Stats -->
     <div class="stats-row">
-      <div class="stat-card total">
-        <span class="stat-num">{{ totalConsultations }}</span>
-        <span class="stat-lbl">Consultations</span>
-      </div>
-      <div class="stat-card danger">
-        <span class="stat-num">{{ casAnemie }}</span>
-        <span class="stat-lbl">Cas anémie</span>
-      </div>
-      <div class="stat-card success">
-        <span class="stat-num">{{ casNormaux }}</span>
-        <span class="stat-lbl">Normaux</span>
-      </div>
+      <div class="stat"><span class="sn">{{ stats.total }}</span><span class="sl">Analyses</span></div>
+      <div class="stat d"><span class="sn">{{ stats.anemie }}</span><span class="sl">Anémie</span></div>
+      <div class="stat s"><span class="sn">{{ stats.normal }}</span><span class="sl">Normal</span></div>
     </div>
 
-    <!-- Actions -->
-    <p class="section-title">Actions</p>
+    <p class="section-lbl">Actions rapides</p>
 
-    <div class="actions-list">
-
-      <div class="action-card" (click)="navigate('/formulaire')">
-        <div class="action-ico blue">
-          <ion-icon name="person-add-outline"></ion-icon>
-        </div>
-        <div class="action-text">
-          <strong>Nouveau patient</strong>
-          <span>Saisir les facteurs et lancer l'analyse</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="action-arr"></ion-icon>
+    <div class="action-card" *ngFor="let a of actions" (click)="go(a.path)">
+      <div class="a-icon" [ngClass]="a.cls">
+        <ion-icon [name]="a.icon"></ion-icon>
       </div>
-
-      <div class="action-card" (click)="navigate('/historique')">
-        <div class="action-ico green">
-          <ion-icon name="time-outline"></ion-icon>
-        </div>
-        <div class="action-text">
-          <strong>Historique</strong>
-          <span>Consulter les analyses précédentes</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="action-arr"></ion-icon>
+      <div class="a-text">
+        <strong>{{ a.label }}</strong>
+        <p>{{ a.desc }}</p>
       </div>
-
-      <div class="action-card" (click)="navigate('/graphiques')">
-        <div class="action-ico amber">
-          <ion-icon name="bar-chart-outline"></ion-icon>
-        </div>
-        <div class="action-text">
-          <strong>Graphiques</strong>
-          <span>Facteurs influençant l'anémie</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="action-arr"></ion-icon>
-      </div>
-
-      <div class="action-card" (click)="navigate('/modele')">
-        <div class="action-ico violet">
-          <ion-icon name="analytics-outline"></ion-icon>
-        </div>
-        <div class="action-text">
-          <strong>Modèle IA</strong>
-          <span>Précision et performance du modèle</span>
-        </div>
-        <ion-icon name="chevron-forward-outline" class="action-arr"></ion-icon>
-      </div>
-
+      <ion-icon name="chevron-forward-outline" class="a-arrow"></ion-icon>
     </div>
+
   </div>
 </ion-content>
-
-<!-- Bottom nav -->
-<ion-tab-bar slot="bottom" class="custom-tab-bar">
-  <ion-tab-button tab="home" [selected]="true">
-    <ion-icon name="home-outline"></ion-icon>
-    <ion-label>Accueil</ion-label>
-  </ion-tab-button>
-  <ion-tab-button tab="formulaire">
-    <ion-icon name="person-add-outline"></ion-icon>
-    <ion-label>Patient</ion-label>
-  </ion-tab-button>
-  <ion-tab-button tab="historique">
-    <ion-icon name="time-outline"></ion-icon>
-    <ion-label>Historique</ion-label>
-  </ion-tab-button>
-  <ion-tab-button tab="stats">
-    <ion-icon name="stats-chart-outline"></ion-icon>
-    <ion-label>Stats</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>

@@ -1,73 +1,64 @@
 <ion-header>
   <ion-toolbar class="custom-toolbar">
+<!--    button retour-->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+
     <div class="toolbar-inner">
       <div class="toolbar-logo"><ion-icon name="time-outline"></ion-icon></div>
       <div>
         <div class="toolbar-title">Historique</div>
-        <div class="toolbar-sub">{{ patients.length }} analyses enregistrées</div>
+        <div class="toolbar-sub">{{ tous.length }} analyses enregistrées</div>
       </div>
     </div>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="exportData()">
-        <ion-icon name="download-outline" slot="icon-only"></ion-icon>
+      <ion-button fill="clear" (click)="exporter()">
+        <ion-icon name="download-outline" slot="icon-only" style="color:white"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="hist-content">
+  <div class="page-content">
 
-    <!-- Recherche -->
-    <div class="search-bar">
+    <div class="search-wrap">
       <ion-icon name="search-outline"></ion-icon>
       <ion-input [(ngModel)]="searchText" placeholder="Rechercher un patient..."
                  (ionInput)="onSearch()">
       </ion-input>
     </div>
 
-    <!-- Filtres -->
-    <div class="filter-chips">
-      <div class="chip" [class.active]="activeFilter === 'tous'"
-           (click)="setFilter('tous')">Tous</div>
-      <div class="chip" [class.active]="activeFilter === 'anemie'"
-           (click)="setFilter('anemie')">Anémie</div>
-      <div class="chip" [class.active]="activeFilter === 'normal'"
-           (click)="setFilter('normal')">Normal</div>
-      <div class="chip" [class.active]="activeFilter === 'modere'"
-           (click)="setFilter('modere')">Modéré</div>
-      <div class="chip" [class.active]="activeFilter === 'mois'"
-           (click)="setFilter('mois')">Ce mois</div>
+    <div class="chips">
+      <div class="chip" [class.active]="activeFilter==='tous'"   (click)="setFilter('tous')">Tous</div>
+      <div class="chip" [class.active]="activeFilter==='normal'" (click)="setFilter('normal')">Normal</div>
+      <div class="chip" [class.active]="activeFilter==='anemie'" (click)="setFilter('anemie')">Anémie</div>
+      <div class="chip" [class.active]="activeFilter==='severe'" (click)="setFilter('severe')">Mod./Sév.</div>
+      <div class="chip" [class.active]="activeFilter==='mois'"   (click)="setFilter('mois')">Ce mois</div>
     </div>
 
-    <!-- Liste -->
-    <div class="hist-list">
-      <div class="hist-card" *ngFor="let p of filteredPatients"
-           (click)="voirDetail(p)">
-        <div class="avatar" [ngClass]="getAvatarClass(p.resultat)">
-          {{ getInitials(p.prenom, p.nom) }}
+    <div class="hist-card" *ngFor="let h of filtres" (click)="voirDetail(h)">
+      <div class="avatar" [ngClass]="getCls(h)">{{ getInitiales(h) }}</div>
+      <div class="hist-info">
+        <div class="hist-name">{{ h.patient?.prenom }} {{ h.patient?.nom }}</div>
+        <div class="hist-meta">
+          {{ h.patient?.age_enfant_mois }} mois ·
+          {{ h.patient?.sexe_enfant === 1 ? 'M' : 'F' }}
         </div>
-        <div class="hist-info">
-          <div class="hist-name">{{ p.prenom }} {{ p.nom }}</div>
-          <div class="hist-meta">
-            {{ p.age }} mois · {{ p.sexe }} · {{ p.date | date:'d MMM yyyy' }}
-          </div>
-          <div class="hist-meta">
-            <ion-icon name="location-outline"></ion-icon> {{ p.region }}
-          </div>
-        </div>
-        <div class="hist-right">
-          <span class="badge-result" [ngClass]="getBadgeClass(p.resultat)">
-            {{ p.resultat }}
-          </span>
-          <div class="conf-score">{{ p.confiance }}%</div>
-        </div>
+        <div class="hist-meta">{{ h.date | date:'d MMM yyyy · HH:mm' }}</div>
+      </div>
+      <div class="hist-right">
+        <span class="badge" [ngClass]="getBadgeCls(h)">{{ getLabel(h) }}</span>
+        <div class="conf">{{ getConf(h) }}%</div>
+        <ion-icon name="trash-outline" class="trash"
+                  (click)="supprimer(h, $event)"></ion-icon>
       </div>
     </div>
 
-    <div class="empty-state" *ngIf="filteredPatients.length === 0">
-      <ion-icon name="search-outline"></ion-icon>
-      <p>Aucun résultat trouvé</p>
+    <div class="empty-state" *ngIf="filtres.length === 0">
+      <ion-icon name="person-outline"></ion-icon>
+      <p>Aucune analyse trouvée</p>
     </div>
 
   </div>

@@ -1,145 +1,168 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
-  IonBackButton, IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon, IonItem, IonLabel, IonList,
-  IonTitle,
-  IonToolbar
-} from "@ionic/angular/standalone";
-import {NgClass} from "@angular/common";
-import {addIcons} from "ionicons";
-import {Router} from "@angular/router";
+  IonHeader, IonToolbar, IonContent,
+  IonBackButton, IonButtons, IonButton, IonIcon
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 import {
-  alertCircleOutline,
-  checkmarkCircleOutline,
-  chevronForwardCircleOutline,
-  ellipseOutline,
-  removeCircleOutline, warningOutline
-} from "ionicons/icons";
+  hardwareChipOutline, pulseOutline, statsChartOutline,
+  gitBranchOutline, trendingUpOutline, clipboardOutline,
+  analyticsOutline, bulbOutline, shareOutline,
+  addCircleOutline, barChartOutline, checkmarkCircleOutline,
+  alertCircleOutline, calendarOutline, medicalOutline,
+  nutritionOutline, heartOutline, documentTextOutline,
+  warningOutline, timeOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-resultats',
   templateUrl: './resultats.component.html',
   styleUrls: ['./resultats.component.scss'],
+  standalone: true,
   imports: [
-    IonHeader,
-    IonButtons,
-    IonToolbar,
-    IonBackButton,
-    IonTitle,
-    IonContent,
-    IonIcon,
-    NgClass,
-    IonList,
-    IonLabel,
-    IonItem,
-    IonButton
-  ]
+    CommonModule,
+    IonHeader, IonToolbar, IonContent,
+    IonBackButton, IonButtons, IonButton, IonIcon,
+  ],
 })
-export class ResultatsComponent  implements OnInit {
+export class ResultatsComponent implements OnInit {
 
-  patient: any = {};
-  resultat: any = {
-    anemique: false,
-    hemoglobine: 11.5,
-    niveau: 'Normal',
-    recommandations: []
-  };
+  activeTab = 'diagnostic';
+  today     = new Date();
+  patient:  any = {};
+  resultat: any = {};
 
-  // eslint-disable-next-line @angular-eslint/prefer-inject
+  severites = ['Pas anémie', 'Légère', 'Mod./Sév.'];
+  recommandations: any[] = [];
+
+  featuresIA = [
+    { name: 'Âge enfant (mois)',    pct: 28, color: '#1a237e' },
+    { name: 'Z-score taille/âge',   pct: 18, color: '#283593' },
+    { name: 'Z-score poids/taille', pct: 15, color: '#3949ab' },
+    { name: 'Fièvre',               pct: 12, color: '#5c6bc0' },
+    { name: 'Anémie mère',          pct: 10, color: '#7986cb' },
+    { name: 'Indice richesse',       pct: 8,  color: '#9fa8da' },
+    { name: 'Âge mère',             pct: 5,  color: '#c5cae9' },
+    { name: 'BMI mère',             pct: 4,  color: '#bbdefb' },
+  ];
+
   constructor(private router: Router) {
     addIcons({
-      warningOutline, checkmarkCircleOutline, chevronForwardCircleOutline,
-      alertCircleOutline, removeCircleOutline, ellipseOutline
+      hardwareChipOutline, pulseOutline, statsChartOutline,
+      gitBranchOutline, trendingUpOutline, clipboardOutline,
+      analyticsOutline, bulbOutline, shareOutline,
+      addCircleOutline, barChartOutline, checkmarkCircleOutline,
+      alertCircleOutline, calendarOutline, medicalOutline,
+      nutritionOutline, heartOutline, documentTextOutline,
+      warningOutline, timeOutline
     });
   }
 
   ngOnInit() {
-    const nav = this.router.getCurrentNavigation();
-    const state = nav?.extras?.state || history.state;
-
-    if (state?.patient) {
-      this.patient  = state.patient;
-      this.resultat = state.resultat ?? this.simulerResultat();
-    }
+    const state = history.state;
+    if (state?.patient) this.patient  = state.patient;
+    if (state?.resultat) this.resultat = state.resultat;
+    this.genererRecos();
   }
 
-  // Simulation en attendant l'API ML
-  simulerResultat() {
-    const hemo = parseFloat((Math.random() * 8 + 7).toFixed(1));
-    const anemique = hemo < 11;
+  getNiveau(): number {
+    return this.resultat?.random_forest?.prediction ?? 0;
+  }
 
-    let niveau = 'Normal';
-    let recommandations: string[] = [];
+  getBannerClass(): string {
+    const n = this.getNiveau();
+    if (n === 0) return 'success';
+    if (n === 1) return 'warning';
+    return 'danger';
+  }
 
-    if (hemo < 7) {
-      niveau = 'Anémie sévère';
-      recommandations = [
-        'Référer immédiatement vers un centre de santé.',
-        'Transfusion sanguine à envisager.',
-        'Supplémenter en fer et acide folique.'
+  getDotClass(i: number): string {
+    const n = this.getNiveau();
+    if (i === n) return 'active';
+    if (i < n)   return 'done';
+    return 'pending';
+  }
+
+  getConfiance(): number {
+    const p = this.resultat?.random_forest?.probabilites;
+    if (!p) return 0;
+    return Math.round(Math.max(p.pas_anemie, p.leger, p.modere_severe) * 100);
+  }
+
+  getProbasRF() {
+    const p = this.resultat?.random_forest?.probabilites;
+    if (!p) return [];
+    return [
+      { label: 'Pas anémie',     pct: Math.round(p.pas_anemie   * 100), color: '#2e7d32' },
+      { label: 'Légère',         pct: Math.round(p.leger         * 100), color: '#e65100' },
+      { label: 'Mod./Sévère',   pct: Math.round(p.modere_severe * 100), color: '#c62828' },
+    ];
+  }
+
+  getProbasOrd() {
+    const p = this.resultat?.ordinal?.probabilites;
+    if (!p) return [];
+    return [
+      { label: 'Pas anémie',     pct: Math.round(p.pas_anemie   * 100), color: '#2e7d32' },
+      { label: 'Légère',         pct: Math.round(p.leger         * 100), color: '#e65100' },
+      { label: 'Mod./Sévère',   pct: Math.round(p.modere_severe * 100), color: '#c62828' },
+    ];
+  }
+
+  getAccordClass(): string {
+    return this.resultat?.random_forest?.prediction ===
+    this.resultat?.ordinal?.prediction ? 'accord-ok' : 'accord-diff';
+  }
+
+  getAccordMsg(): string {
+    const ok = this.resultat?.random_forest?.prediction ===
+      this.resultat?.ordinal?.prediction;
+    return ok
+      ? 'Les deux modèles sont en accord'
+      : 'Les modèles divergent — interprétation clinique recommandée';
+  }
+
+  getAccordIcon(): string {
+    return this.resultat?.random_forest?.prediction ===
+    this.resultat?.ordinal?.prediction
+      ? 'checkmark-circle-outline' : 'alert-circle-outline';
+  }
+
+  getInterpretation(): string {
+    const n = this.getNiveau();
+    if (n === 0) return 'Les facteurs analysés indiquent un statut non anémique. L\'âge et le bon statut nutritionnel contribuent positivement.';
+    if (n === 1) return 'Anémie légère détectée. L\'âge, le z-score taille/âge et le statut maternel sont les principaux facteurs contributifs.';
+    return 'Anémie modérée à sévère. La fièvre, le statut nutritionnel et l\'anémie maternelle sont des facteurs aggravants. Prise en charge immédiate recommandée.';
+  }
+
+  genererRecos() {
+    const n = this.getNiveau();
+    if (n === 0) {
+      this.recommandations = [
+        { titre: 'Suivi régulier',          desc: 'Contrôle nutritionnel tous les 6 mois.',          icon: 'calendar-outline',      cls: 'green' },
+        { titre: 'Alimentation équilibrée', desc: 'Maintenir une diversité alimentaire suffisante.', icon: 'nutrition-outline',     cls: 'green' },
+        { titre: 'Allaitement maternel',    desc: 'Continuer l\'allaitement si applicable.',         icon: 'heart-outline',         cls: 'green' },
       ];
-    } else if (hemo < 9) {
-      niveau = 'Anémie modérée';
-      recommandations = [
-        'Supplémenter en fer pendant 3 mois.',
-        'Améliorer la diversité alimentaire.',
-        'Traiter les infections parasitaires si présentes.'
-      ];
-    } else if (hemo < 11) {
-      niveau = 'Anémie légère';
-      recommandations = [
-        'Encourager la consommation d\'aliments riches en fer.',
-        'Suivi nutritionnel mensuel recommandé.',
-        'Vérifier les antécédents de paludisme.'
+    } else if (n === 1) {
+      this.recommandations = [
+        { titre: 'Supplémentation fer',  desc: 'Supplémenter en fer pendant 3 mois.',               icon: 'medical-outline',       cls: 'orange' },
+        { titre: 'Alimentation riche',   desc: 'Aliments riches en fer : viande, légumineuses.',    icon: 'nutrition-outline',     cls: 'orange' },
+        { titre: 'Suivi mensuel',        desc: 'Contrôle hémoglobine dans 1 mois.',                 icon: 'calendar-outline',      cls: 'orange' },
+        { titre: 'Traiter infections',   desc: 'Vérifier et traiter les infections parasitaires.',  icon: 'pulse-outline',         cls: 'orange' },
       ];
     } else {
-      niveau = 'Normal';
-      recommandations = [
-        'Maintenir une alimentation équilibrée.',
-        'Suivi de routine tous les 6 mois.',
-        'Continuer l\'allaitement si applicable.'
+      this.recommandations = [
+        { titre: 'Référence urgente',    desc: 'Référer immédiatement vers un centre de santé.',    icon: 'warning-outline',       cls: 'red' },
+        { titre: 'Bilan biologique',     desc: 'Hémogramme complet et bilan martial.',              icon: 'document-text-outline', cls: 'red' },
+        { titre: 'Traitement intensif',  desc: 'Transfusion ou traitement médical à envisager.',   icon: 'medical-outline',       cls: 'red' },
+        { titre: 'Suivi rapproché',      desc: 'Contrôle dans 2 semaines après traitement.',        icon: 'calendar-outline',      cls: 'red' },
       ];
     }
-
-    return { anemique, hemoglobine: hemo, niveau, recommandations };
   }
 
-  getHemoPercent(): number {
-    return Math.min((this.resultat.hemoglobine / 20) * 100, 100);
-  }
-
-  getHemoClass(): string {
-    const h = this.resultat.hemoglobine;
-    if (h < 7)  return 'danger';
-    if (h < 11) return 'warning';
-    return 'success';
-  }
-
-  getNiveauClass(): string {
-    const n = this.resultat.niveau;
-    if (n.includes('sévère'))  return 'severe';
-    if (n.includes('modérée')) return 'modere';
-    if (n.includes('légère'))  return 'leger';
-    return 'normal';
-  }
-
-  getNiveauIcon(): string {
-    const n = this.resultat.niveau;
-    if (n.includes('sévère'))  return 'alert-circle-outline';
-    if (n.includes('modérée')) return 'warning-outline';
-    if (n.includes('légère'))  return 'remove-circle-outline';
-    return 'ellipse-outline';
-  }
-
-  nouvelleAnalyse() {
-    this.router.navigate(['/formulaire']);
-  }
-
-  voirGraphiques() {
-    this.router.navigate(['/graphiques']);
-  }
-
+  nouvelleAnalyse() { this.router.navigate(['/patient']);    }
+  voirGraphiques()  { this.router.navigate(['/graphiques']); }
+  voirHistorique()  { this.router.navigate(['/historique']); }
 }

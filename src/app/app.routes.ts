@@ -8,49 +8,52 @@ export const routes: Routes = [
     redirectTo: 'bienvenue',
     pathMatch: 'full',
   },
-  // {
-  //   path: 'login',
-  //   loadComponent: () =>
-  //     import('./authentification/login/login.component').then((m) => m.LoginComponent),
-  // },
-  {
-    path: 'bienvenue',
-    loadComponent: () =>
-      import('./authentification/bienvenue/bienvenue.component').then((m) => m.BienvenueComponent),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./authentification/register/register.component').then((m) => m.RegisterComponent),
-  },
 
-  {
-    path: 'dashboard',
+{
+  path: 'bienvenue',
     loadComponent: () =>
-      import('./dashbord/dashbord.component').then((m) => m.DashbordComponent),
-  },
-
-  // {
-  //     path: 'patient',
-  //   loadComponent: () =>
-  //     import('./patient/patient.component').then((m) => m.PatientComponent),
-  // },
-  {
-    path: 'resul',
+  import('./authentification/bienvenue/bienvenue.component')
+    .then(m => m.BienvenueComponent),
+},
+{
+  path: 'dashboard',
     loadComponent: () =>
-      import('./resultats/resultats.component').then((m) => m.ResultatsComponent),
-  },
-
-  {
-    path: 'resultats',
+  import('./dashbord/dashbord.component')
+    .then(m => m.DashbordComponent),
+},
+{
+  path: 'patient',
     loadComponent: () =>
-      import('./resultats/resultats.component').then((m) => m.ResultatsComponent),
-  },
-
-  {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
-  },
-
+  import('./patient/patient.component')
+    .then(m => m.PatientComponent),
+},
+{
+  path: 'resultats',
+    loadComponent: () =>
+  import('./resultats/resultats.component')
+    .then(m => m.ResultatsComponent),
+},
+{
+  path: 'historique',
+    loadComponent: () =>
+  import('./historique/historique.component')
+    .then(m => m.HistoriqueComponent),
+},
+{
+  path: 'graphiques',
+    loadComponent: () =>
+  import('./graphes/graphes.component')
+    .then(m => m.GraphesComponent),
+},
+{
+  path: 'modele',
+    loadComponent: () =>
+  import('./modele/resul.component')
+    .then(m => m.RESULComponent),
+},
+{
+  path: '**',
+    redirectTo: 'bienvenue',
+},
 
 ];

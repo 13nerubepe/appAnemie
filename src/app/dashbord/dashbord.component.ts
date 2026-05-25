@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonCard,
@@ -9,15 +10,31 @@ import {
   IonIcon, IonLabel, IonTabBar, IonTabButton, IonTitle,
   IonToolbar
 } from "@ionic/angular/standalone";
-import {barChartOutline, chevronForwardOutline, logOutOutline, personAddOutline, timeOutline} from "ionicons/icons";
+import {
+  analyticsOutline, arrowForwardOutline,
+  barChartOutline,
+  chevronForwardOutline,
+  heartOutline,
+  logOutOutline,
+  personAddOutline, shieldCheckmarkOutline,
+  timeOutline
+} from "ionicons/icons";
 import {addIcons} from "ionicons";
 import {Router} from "@angular/router";
+import {AnemieService} from "../service/anemie-service";
+import {CommonModule, NgClass} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-dashbord',
   templateUrl: './dashbord.component.html',
   styleUrls: ['./dashbord.component.scss'],
+  standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
+    IonBackButton,
+
     IonCardContent,
     IonCard,
     IonIcon,
@@ -29,35 +46,33 @@ import {Router} from "@angular/router";
     IonButton,
     IonTabBar,
     IonTabButton,
-    IonLabel
+    IonLabel,
+    NgClass
   ]
 })
-export class DashbordComponent  implements OnInit {
+export class DashbordComponent implements OnInit {
 
-  username = 'Utilisateur';
-  totalConsultations = 0;
-  casAnemie = 0;
-  casNormaux = 0;
+  stats = { total: 0, anemie: 0, normal: 0 };
 
-  // eslint-disable-next-line @angular-eslint/prefer-inject
-  constructor(private router: Router) {
-    addIcons({ logOutOutline, personAddOutline, timeOutline,
-      barChartOutline, chevronForwardOutline });
+  actions = [
+    { label: 'Nouveau patient',  desc: 'Saisir les variables et lancer la prédiction IA', icon: 'person-add-outline', path: '/patient',    cls: 'blue'   },
+    { label: 'Historique',       desc: 'Consulter les analyses précédentes',               icon: 'time-outline',        path: '/historique', cls: 'green'  },
+    { label: 'Graphiques',       desc: 'Facteurs d\'influence de l\'anémie',               icon: 'bar-chart-outline',   path: '/graphiques', cls: 'amber'  },
+    { label: 'Modèles IA',       desc: 'Performances Random Forest · Régression Ordinale', icon: 'analytics-outline',   path: '/modele',     cls: 'purple' },
+  ];
+
+  constructor(private router: Router, private anemieService: AnemieService) {
+    addIcons({ heartOutline, personAddOutline, timeOutline,
+      barChartOutline, analyticsOutline, logOutOutline, chevronForwardOutline });
   }
 
   ngOnInit() {
-    // TODO: charger les stats depuis un service
-    this.totalConsultations = 24;
-    this.casAnemie = 9;
-    this.casNormaux = 15;
+    const h = this.anemieService.getHistorique();
+    this.stats.total  = h.length;
+    this.stats.anemie = h.filter((x: any) => x.resultat?.random_forest?.prediction > 0).length;
+    this.stats.normal = h.filter((x: any) => x.resultat?.random_forest?.prediction === 0).length;
   }
 
-  navigate(path: string) {
-    this.router.navigate([path]).then(r => console.log('Navigation:', r));
-  }
-
-  logout() {
-    this.router.navigate(['/login']).then(r => console.log('Logout:', r));
-  }
-
+  go(path: string) { this.router.navigate([path]); }
+  logout()         { this.router.navigate(['/bienvenue']); }
 }

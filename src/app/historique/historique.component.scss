@@ -1,0 +1,3 @@
+@import '../shared.scss';
+ion-content { --background: $bg; }
+.trash { color: $danger; font-size: 18px; margin-top: 4px; }
