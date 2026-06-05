@@ -21,7 +21,7 @@ import {
 } from "ionicons/icons";
 import {addIcons} from "ionicons";
 import {Router} from "@angular/router";
-import {AnemieService} from "../service/anemie-service";
+import {AnemieService, ConsultationHistorique} from "../service/anemie-service";
 import {CommonModule, NgClass} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
@@ -53,12 +53,13 @@ import {FormsModule} from "@angular/forms";
 export class DashbordComponent implements OnInit {
 
   stats = { total: 0, anemie: 0, normal: 0 };
+  consultations: ConsultationHistorique[] = [];
 
   actions = [
     { label: 'Nouveau patient',  desc: 'Saisir les variables et lancer la prédiction IA', icon: 'person-add-outline', path: '/patient',    cls: 'blue'   },
-    { label: 'Historique',       desc: 'Consulter les analyses précédentes',               icon: 'time-outline',        path: '/historique', cls: 'green'  },
-    { label: 'Graphiques',       desc: 'Facteurs d\'influence de l\'anémie',               icon: 'bar-chart-outline',   path: '/graphiques', cls: 'amber'  },
-    { label: 'Modèles IA',       desc: 'Performances Random Forest · Régression Ordinale', icon: 'analytics-outline',   path: '/modele',     cls: 'purple' },
+    { label: 'Historique',       desc: 'Consulter les analyses précédentes',               icon: 'time-outline',       path: '/historique', cls: 'green'  },
+    { label: 'Graphiques',       desc: 'Facteurs d\'influence de l\'anémie',               icon: 'bar-chart-outline',  path: '/graphiques', cls: 'amber'  },
+    { label: 'Modèles IA',       desc: 'Performances Random Forest · Régression Ordinale', icon: 'analytics-outline',  path: '/modele',     cls: 'purple' },
   ];
 
   constructor(private router: Router, private anemieService: AnemieService) {
@@ -67,12 +68,15 @@ export class DashbordComponent implements OnInit {
   }
 
   ngOnInit() {
-    const h = this.anemieService.getHistorique();
-    this.stats.total  = h.length;
-    this.stats.anemie = h.filter((x: any) => x.resultat?.random_forest?.prediction > 0).length;
-    this.stats.normal = h.filter((x: any) => x.resultat?.random_forest?.prediction === 0).length;
+    this.anemieService.getHistorique().subscribe(data => {
+      this.consultations    = data.items;
+      this.stats.total      = data.total;
+      this.stats.anemie     = data.items.filter(x => x.diagnostic_final !== 'Pas anémie').length;
+      this.stats.normal     = data.items.filter(x => x.diagnostic_final === 'Pas anémie').length;
+    });
   }
 
   go(path: string) { this.router.navigate([path]); }
   logout()         { this.router.navigate(['/bienvenue']); }
+
 }

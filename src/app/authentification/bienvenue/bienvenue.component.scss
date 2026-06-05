@@ -1,4 +1,4 @@
-ion-content { --background: #1a237e; }
+ion-content { --background: #b71c1c; }
 
 .wrap {
   min-height: 100vh;
@@ -37,13 +37,13 @@ ion-content { --background: #1a237e; }
   background: white; border-radius: 24px; padding: 32px 24px;
   z-index: 1; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
 
-  h2 { font-size: 22px; font-weight: 700; color: #1a237e; margin: 0 0 10px; }
+  h2 { font-size: 22px; font-weight: 700; color: #7f0f17; margin: 0 0 10px; }
   p  { font-size: 14px; color: #757575; line-height: 1.6; margin: 0 0 28px; }
 }
 
 .btn-start {
   width: 100%; padding: 15px;
-  background: #1a237e; color: white; border: none;
+  background: #b71c1c;; color: white; border: none;
   border-radius: 50px; font-size: 16px; font-weight: 600;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   cursor: pointer; margin-bottom: 20px;

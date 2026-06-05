@@ -9,12 +9,12 @@ import {
   IonInput,
   IonToolbar
 } from "@ionic/angular/standalone";
-import {FormsModule} from "@angular/forms";
-import {CommonModule, DatePipe, NgClass} from "@angular/common";
-import {Router} from "@angular/router";
-import {downloadOutline, personOutline, searchOutline, timeOutline, trashOutline} from "ionicons/icons";
-import {addIcons} from "ionicons";
-import {AnemieService} from "../service/anemie-service";
+import { FormsModule } from "@angular/forms";
+import { CommonModule, DatePipe, NgClass } from "@angular/common";
+import { Router } from "@angular/router";
+import { downloadOutline, personOutline, searchOutline, timeOutline, trashOutline } from "ionicons/icons";
+import { addIcons } from "ionicons";
+import { AnemieService, ConsultationHistorique } from "../service/anemie-service";
 
 @Component({
   selector: 'app-historique',
@@ -22,7 +22,7 @@ import {AnemieService} from "../service/anemie-service";
   styleUrls: ['./historique.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,     // ← *ngFor, *ngIf, pipes
+    CommonModule,
     FormsModule,
     IonBackButton,
     IonIcon,
@@ -33,25 +33,37 @@ import {AnemieService} from "../service/anemie-service";
     IonContent,
     DatePipe,
     IonInput,
-    FormsModule,
     NgClass
   ]
 })
-export class HistoriqueComponent  implements OnInit {
+export class HistoriqueComponent implements OnInit {
 
   searchText   = '';
   activeFilter = 'tous';
-  tous:     any[] = [];
-  filtres:  any[] = [];
+  tous:    ConsultationHistorique[] = [];
+  filtres: ConsultationHistorique[] = [];
+  chargement = false;
 
   constructor(private router: Router, private anemieService: AnemieService) {
-    addIcons({ timeOutline, searchOutline, downloadOutline,
-      trashOutline, personOutline });
+    addIcons({ timeOutline, searchOutline, downloadOutline, trashOutline, personOutline });
   }
 
   ngOnInit() {
-    this.tous = this.anemieService.getHistorique();
-    this.filtrer();
+    this.chargerHistorique();
+  }
+
+  chargerHistorique() {
+    this.chargement = true;
+    this.anemieService.getHistorique().subscribe({
+      next: (data) => {
+        this.tous       = data.items;
+        this.chargement = false;
+        this.filtrer();
+      },
+      error: () => {
+        this.chargement = false;
+      }
+    });
   }
 
   filtrer() {
@@ -60,19 +72,21 @@ export class HistoriqueComponent  implements OnInit {
     if (this.searchText.trim()) {
       const q = this.searchText.toLowerCase();
       liste = liste.filter(h =>
-        `${h.patient?.prenom} ${h.patient?.nom}`.toLowerCase().includes(q)
+        h.diagnostic_final.toLowerCase().includes(q) ||
+        (h.nom_praticien   || '').toLowerCase().includes(q) ||
+        (h.structure_sante || '').toLowerCase().includes(q)
       );
     }
 
     if (this.activeFilter === 'normal') {
-      liste = liste.filter(h => h.resultat?.random_forest?.prediction === 0);
+      liste = liste.filter(h => h.diagnostic_final === 'Pas anémie');
     } else if (this.activeFilter === 'anemie') {
-      liste = liste.filter(h => h.resultat?.random_forest?.prediction > 0);
+      liste = liste.filter(h => h.diagnostic_final !== 'Pas anémie');
     } else if (this.activeFilter === 'severe') {
-      liste = liste.filter(h => h.resultat?.random_forest?.prediction === 2);
+      liste = liste.filter(h => h.diagnostic_final === 'Anémie modérée/sévère');
     } else if (this.activeFilter === 'mois') {
       const debut = new Date(); debut.setDate(1);
-      liste = liste.filter(h => new Date(h.date) >= debut);
+      liste = liste.filter(h => new Date(h.created_at) >= debut);
     }
 
     this.filtres = liste;
@@ -81,17 +95,15 @@ export class HistoriqueComponent  implements OnInit {
   setFilter(f: string) { this.activeFilter = f; this.filtrer(); }
   onSearch()           { this.filtrer(); }
 
-  voirDetail(h: any) {
-    this.router.navigate(['/resultats'], {
-      state: { patient: h.patient, resultat: h.resultat }
-    });
+  voirDetail(h: ConsultationHistorique) {
+    this.router.navigate(['/resultats'], { state: { consultation: h } });
   }
 
-  supprimer(h: any, event: Event) {
+  supprimer(h: ConsultationHistorique, event: Event) {
     event.stopPropagation();
-    this.anemieService.supprimerHistorique(h.id);
-    this.tous = this.anemieService.getHistorique();
-    this.filtrer();
+    this.anemieService.supprimerConsultation(h.id).subscribe(() => {
+      this.chargerHistorique();
+    });
   }
 
   exporter() {
@@ -102,29 +114,26 @@ export class HistoriqueComponent  implements OnInit {
     a.href = url; a.download = 'imas_historique.json'; a.click();
   }
 
-  getCls(h: any): string {
-    const p = h.resultat?.random_forest?.prediction;
-    return p === 0 ? 's' : p === 1 ? 'w' : 'd';
+  getCls(h: ConsultationHistorique): string {
+    if (h.diagnostic_final === 'Pas anémie')    return 's';
+    if (h.diagnostic_final === 'Anémie légère') return 'w';
+    return 'd';
   }
 
-  getBadgeCls(h: any): string {
-    const p = h.resultat?.random_forest?.prediction;
-    return p === 0 ? 's' : p === 1 ? 'w' : 'd';
+  getBadgeCls(h: ConsultationHistorique): string {
+    return this.getCls(h);
   }
 
-  getLabel(h: any): string {
-    return h.resultat?.random_forest?.label || 'N/A';
+  getLabel(h: ConsultationHistorique): string {
+    return h.label_rf || h.diagnostic_final || 'N/A';
   }
 
-  getConf(h: any): number {
-    const p = h.resultat?.random_forest?.probabilites;
-    if (!p) return 0;
-    return Math.round(Math.max(p.pas_anemie, p.leger, p.modere_severe) * 100);
+  getConf(h: ConsultationHistorique): number {
+    return 0;
   }
 
-  getInitiales(h: any): string {
-    const prenom = h.patient?.prenom || '';
-    const nom    = h.patient?.nom    || '';
-    return ((prenom[0] || '') + (nom[0] || '')).toUpperCase() || '?';
+  getInitiales(h: ConsultationHistorique): string {
+    const p = h.nom_praticien || '';
+    return p.length >= 2 ? p.substring(0, 2).toUpperCase() : '?';
   }
 }

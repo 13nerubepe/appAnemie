@@ -203,7 +203,6 @@ export class PatientComponent {
   // ── Validation ────────────────────────────────────────
   valide(): boolean {
     const p = this.patient;
-
     return p.age_enfant_mois !== null &&
       p.sexe_enfant !== null &&
       p.poids !== null &&
@@ -219,41 +218,6 @@ export class PatientComponent {
       p.age_mere !== null &&
       p.BMI !== null;
   }
-
-  // valide(): boolean {
-  //   const p = this.patient;
-  //
-  //   // ← Ajoute ces logs temporairement pour voir ce qui manque
-  //   console.log('age_enfant_mois:',     p.age_enfant_mois);
-  //   console.log('sexe_enfant:',         p.sexe_enfant);
-  //   console.log('poids:',               p.poids);
-  //   console.log('taille:',              p.taille);
-  //   console.log('zscore_taille_age:',   p.zscore_taille_age);
-  //   console.log('zscore_poids_taille:', p.zscore_poids_taille);
-  //   console.log('diarrhee:',            p.diarrhee);
-  //   console.log('fievre:',              p.fievre);
-  //   console.log('anemie_mere:',         p.anemie_mere);
-  //   console.log('milieu_residence:',    p.milieu_residence);
-  //   console.log('indice_richesse:',     p.indice_richesse);
-  //   console.log('niveau_instruction:',  p.niveau_instruction);
-  //   console.log('age_mere:',            p.age_mere);
-  //   console.log('BMI:',                 p.BMI);
-  //
-  //   return p.age_enfant_mois !== null &&
-  //     p.sexe_enfant !== null &&
-  //     p.poids !== null &&
-  //     p.taille !== null &&
-  //     p.zscore_taille_age !== null &&
-  //     p.zscore_poids_taille !== null &&
-  //     p.diarrhee !== null &&
-  //     p.fievre !== null &&
-  //     p.anemie_mere !== null &&
-  //     p.milieu_residence !== null &&
-  //     p.indice_richesse !== null &&
-  //     p.niveau_instruction !== null &&
-  //     p.age_mere !== null &&
-  //     p.BMI !== null;
-  // }
 
   // ── Soumission → API ──────────────────────────────────
   onSubmit() {
@@ -272,26 +236,27 @@ export class PatientComponent {
       niveau_instruction:  this.patient.niveau_instruction!,
       age_mere:            this.patient.age_mere!,
       BMI:                 this.patient.BMI!,
+      // Nom praticien optionnel combiné depuis prenom + nom
+      nom_praticien: (this.patient.prenom + ' ' + this.patient.nom).trim() || undefined,
+      // nom_praticien: (this.patient.prenom + ' ' + this.patient.nom).trim() || null,
     };
 
     this.anemieService.predict(payload).subscribe({
       next: (resultat) => {
         this.loading = false;
-        this.anemieService.sauvegarderHistorique(this.patient, resultat);
+        // ✅ Sauvegarde automatique en BDD via POST /predict — rien à faire ici
         this.router.navigate(['/resultats'], {
           state: { patient: this.patient, resultat }
         });
       },
       error: () => {
         this.loading = false;
+        // Mode simulation si API indisponible
         const resultat = this.anemieService.simuler();
-        this.anemieService.sauvegarderHistorique(this.patient, resultat);
         this.router.navigate(['/resultats'], {
           state: { patient: this.patient, resultat }
         });
       }
     });
-
-
   }
 }
