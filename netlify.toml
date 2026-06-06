@@ -3,7 +3,7 @@ command = "npm install -g @ionic/cli && ionic build --prod"
 publish = "www"
 
 [build.environment]
-NODE_VERSION = "18"
+NODE_VERSION = "20"
 
 [[redirects]]
 from   = "/*"
