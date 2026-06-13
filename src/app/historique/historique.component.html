@@ -50,9 +50,9 @@
       <div class="hist-info">
         <!-- Praticien à la place du patient (données disponibles en BDD) -->
         <div class="hist-name">{{ h.nom_praticien || 'Praticien inconnu' }}</div>
-        <div class="hist-meta">
-          {{ h.age_enfant_mois }} mois · BMI {{ h.bmi }}
-        </div>
+<!--        <div class="hist-meta">-->
+<!--          {{ h.age_enfant_mois }} mois · BMI {{ h.bmi }}-->
+<!--        </div>-->
         <div class="hist-meta">{{ h.created_at | date:'d MMM yyyy · HH:mm' }}</div>
       </div>
 

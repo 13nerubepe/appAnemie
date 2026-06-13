@@ -35,25 +35,42 @@ export class PatientComponent {
     // Infos affichage
     prenom:              '',
     nom:                 '',
+
+    // Clinique enfant
+    diarrhee:           null as number | null,
+    fievre:             null as number | null,
+    deparasitage:       null as number | null,
+    type_allaitement:   null as number | null,
+
+    // Mère
+    age_mere:           null as number | null,
+    anemie_mere:        null as number | null,
+    niveau_instruction: null as number | null,
+
+    // Ménage
+    indice_richesse:    null as number | null,
+    milieu_residence:   null as number | null,
+    region:             null as number | null,  // ← manquait
+
     // Variables saisies
     age_enfant_mois:     null as number | null,
     sexe_enfant:         null as number | null,
     poids:               null as number | null,
     taille:              null as number | null,
-    bmi_poids_mere:      null as number | null,
-    bmi_taille_mere:     null as number | null,
+
+    // Praticien (optionnel)
+    nom_praticien:      '',
+    structure_sante:    '',
+    notes:              '',
+    // bmi_poids_mere:      null as number | null,
+    // bmi_taille_mere:     null as number | null,
     // Variables calculées automatiquement
-    zscore_taille_age:   null as number | null,
-    zscore_poids_taille: null as number | null,
-    BMI:                 null as number | null,
+    // zscore_taille_age:   null as number | null,
+    // zscore_poids_taille: null as number | null,
+    // BMI:                 null as number | null,
     // Variables saisies directement
-    diarrhee:            null as number | null,
-    fievre:              null as number | null,
-    anemie_mere:         null as number | null,
-    milieu_residence:    null as number | null,
-    indice_richesse:     null as number | null,
-    niveau_instruction:  null as number | null,
-    age_mere:            null as number | null,
+
+
   };
 
   constructor(
@@ -71,6 +88,8 @@ export class PatientComponent {
   setDiarrhee(v: number) { this.patient.diarrhee         = v; }
   setFievre(v: number)   { this.patient.fievre           = v; }
   setMilieu(v: number)   { this.patient.milieu_residence = v; }
+  setDeparasitage(v: number)   { this.patient.deparasitage = v; }
+
 
   // ── Calcul Z-scores OMS ───────────────────────────────
   calculerZScores() {
@@ -79,8 +98,8 @@ export class PatientComponent {
     const taille = this.patient.taille;
     const sexe   = this.patient.sexe_enfant;
     if (!age || !poids || !taille || sexe === null) return;
-    this.patient.zscore_taille_age   = this.calcHAZ(age, taille, sexe);
-    this.patient.zscore_poids_taille = this.calcWHZ(poids, taille, sexe);
+    // this.patient.zscore_taille_age   = this.calcHAZ(age, taille, sexe);
+    // this.patient.zscore_poids_taille = this.calcWHZ(poids, taille, sexe);
   }
 
   calcHAZ(age: number, taille: number, sexe: number): number {
@@ -161,15 +180,15 @@ export class PatientComponent {
     return table[closest];
   }
 
-  // ── Calcul IMC mère ───────────────────────────────────
-  calculerBMI() {
-    const p = this.patient.bmi_poids_mere;
-    const t = this.patient.bmi_taille_mere;
-    if (p && t) {
-      const tm = t / 100;
-      this.patient.BMI = Math.round((p / (tm * tm)) * 10) / 10;
-    }
-  }
+  // // ── Calcul IMC mère ───────────────────────────────────
+  // calculerBMI() {
+  //   const p = this.patient.bmi_poids_mere;
+  //   const t = this.patient.bmi_taille_mere;
+  //   if (p && t) {
+  //     const tm = t / 100;
+  //     this.patient.BMI = Math.round((p / (tm * tm)) * 10) / 10;
+  //   }
+  // }
 
   // ── Helpers affichage ─────────────────────────────────
   getZClass(z: number): string {
@@ -202,21 +221,20 @@ export class PatientComponent {
 
   // ── Validation ────────────────────────────────────────
   valide(): boolean {
-    const p = this.patient;
-    return p.age_enfant_mois !== null &&
-      p.sexe_enfant !== null &&
-      p.poids !== null &&
-      p.taille !== null &&
-      p.zscore_taille_age !== null &&
-      p.zscore_poids_taille !== null &&
-      p.diarrhee !== null &&
-      p.fievre !== null &&
-      p.anemie_mere !== null &&
-      p.milieu_residence !== null &&
-      p.indice_richesse !== null &&
-      p.niveau_instruction !== null &&
-      p.age_mere !== null &&
-      p.BMI !== null;
+    return (
+      this.patient.sexe_enfant        !== null &&
+      this.patient.age_enfant_mois    !== null &&
+      this.patient.diarrhee           !== null &&
+      this.patient.fievre             !== null &&
+      this.patient.deparasitage       !== null &&
+      this.patient.type_allaitement   !== null &&
+      this.patient.age_mere           !== null &&
+      this.patient.anemie_mere        !== null &&
+      this.patient.niveau_instruction !== null &&
+      this.patient.indice_richesse    !== null &&
+      this.patient.milieu_residence   !== null &&
+      this.patient.region             !== null   // ← manquait
+    );
   }
 
   // ── Soumission → API ──────────────────────────────────
@@ -224,27 +242,29 @@ export class PatientComponent {
     if (!this.valide() || this.loading) return;
     this.loading = true;
 
+
     const payload = {
-      age_enfant_mois:     this.patient.age_enfant_mois!,
-      zscore_taille_age:   this.patient.zscore_taille_age!,
-      zscore_poids_taille: this.patient.zscore_poids_taille!,
-      diarrhee:            this.patient.diarrhee!,
-      fievre:              this.patient.fievre!,
-      anemie_mere:         this.patient.anemie_mere!,
-      milieu_residence:    this.patient.milieu_residence!,
-      indice_richesse:     this.patient.indice_richesse!,
-      niveau_instruction:  this.patient.niveau_instruction!,
-      age_mere:            this.patient.age_mere!,
-      BMI:                 this.patient.BMI!,
-      // Nom praticien optionnel combiné depuis prenom + nom
+      sexe_enfant:        this.patient.sexe_enfant!,
+      age_enfant_mois:    this.patient.age_enfant_mois!,
+      diarrhee:           this.patient.diarrhee!,
+      fievre:             this.patient.fievre!,
+      deparasitage:       this.patient.deparasitage!,
+      type_allaitement:   this.patient.type_allaitement!,
+      age_mere:           this.patient.age_mere!,
+      anemie_mere:        this.patient.anemie_mere!,
+      niveau_instruction: this.patient.niveau_instruction!,
+      indice_richesse:    this.patient.indice_richesse!,
+      milieu_residence:   this.patient.milieu_residence!,
+      region:             this.patient.region!,
+      structure_sante:    this.patient.structure_sante || undefined,
+      notes:              this.patient.notes           || undefined,
       nom_praticien: (this.patient.prenom + ' ' + this.patient.nom).trim() || undefined,
-      // nom_praticien: (this.patient.prenom + ' ' + this.patient.nom).trim() || null,
     };
 
     this.anemieService.predict(payload).subscribe({
       next: (resultat) => {
         this.loading = false;
-        // ✅ Sauvegarde automatique en BDD via POST /predict — rien à faire ici
+        //  Sauvegarde automatique en BDD via POST /predict — rien à faire ici
         this.router.navigate(['/resultats'], {
           state: { patient: this.patient, resultat }
         });

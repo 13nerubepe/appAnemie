@@ -6,17 +6,26 @@ import {environment} from "../../environments/environment";
 
 
 export interface PatientInput {
-  age_enfant_mois:     number;
-  zscore_taille_age:   number;
-  zscore_poids_taille: number;
-  diarrhee:            number;
-  fievre:              number;
-  anemie_mere:         number;
-  milieu_residence:    number;
-  indice_richesse:     number;
-  niveau_instruction:  number;
-  age_mere:            number;
-  BMI:                 number;
+  // zscore_taille_age:   number;
+  // zscore_poids_taille: number;
+  // Caractéristiques de l'enfant
+  sexe_enfant:        number;  // 0 = fille, 1 = garçon
+  age_enfant_mois:    number;
+  diarrhee:           number;  // 0 = non, 1 = oui
+  fievre:             number;  // 0 = non, 1 = oui
+  deparasitage:       number;  // 0 = non, 1 = oui
+  type_allaitement:   number;
+  // BMI:                 number;
+
+// Caractéristiques de la mère
+  age_mere:           number;
+  anemie_mere:        number;  // 0 = non, 1 = oui
+  niveau_instruction: number;
+
+  // Caractéristiques du ménage
+  indice_richesse:    number;
+  milieu_residence:   number;  // 0 = rural, 1 = urbain
+  region:             number;
 
   // Champs optionnels
   nom_praticien?:   string;
@@ -50,19 +59,31 @@ export interface PredictionResult {
 export interface ConsultationHistorique {
   id:                  number;
   created_at:          string;
-  age_enfant_mois:     number;
-  zscore_taille_age:   number;
-  zscore_poids_taille: number;
-  diarrhee:            number;
-  fievre:              number;
-  anemie_mere:         number;
-  milieu_residence:    number;
-  indice_richesse:     number;
-  niveau_instruction:  number;
-  age_mere:            number;
-  bmi:                 number;
-  diagnostic_final:    string;
-  label_rf:            string;
+
+  // zscore_taille_age:   number;
+  // zscore_poids_taille: number;
+  // Caractéristiques de l'enfant
+  sexe_enfant:        number;
+  age_enfant_mois:    number;
+  diarrhee:           number;
+  fievre:             number;
+  deparasitage:       number;
+  type_allaitement:   number;
+
+  // Caractéristiques de la mère
+  age_mere:           number;
+  anemie_mere:        number;
+  niveau_instruction: number;
+  // bmi:                 number;
+  // Caractéristiques du ménage
+  indice_richesse:    number;
+  milieu_residence:   number;
+  region:             number;
+
+  // Résultats
+  diagnostic_final:   string;
+  label_rf:           string;
+
   nom_praticien:       string | null;
   structure_sante:     string | null;
 }

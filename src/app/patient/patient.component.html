@@ -57,64 +57,65 @@
                      (click)="setSexe(0)">Féminin</div>
               </div>
             </div>
+
           </div>
 
         </div>
       </div>
 
       <!-- Section 2 : Mesures anthropométriques → Z-scores calculés auto -->
-      <div class="form-section">
-        <div class="section-label">
-          <ion-icon name="water-outline"></ion-icon>
-          <span>Mesures anthropométriques *</span>
-        </div>
-        <div class="form-card">
+<!--      <div class="form-section">-->
+<!--        <div class="section-label">-->
+<!--          <ion-icon name="water-outline"></ion-icon>-->
+<!--          <span>Mesures anthropométriques *</span>-->
+<!--        </div>-->
+<!--        <div class="form-card">-->
 
-          <div class="field-row">
-            <div class="fld">
-              <label>Poids enfant (kg)</label>
-              <ion-input [(ngModel)]="patient.poids" name="poids"
-                         type="number" placeholder="11.5" fill="outline"
-                         (ionChange)="calculerZScores()">
-              </ion-input>
-            </div>
-            <div class="fld">
-              <label>Taille enfant (cm)</label>
-              <ion-input [(ngModel)]="patient.taille" name="taille"
-                         type="number" placeholder="82" fill="outline"
-                         (ionChange)="calculerZScores()">
-              </ion-input>
-            </div>
-          </div>
+<!--          <div class="field-row">-->
+<!--            <div class="fld">-->
+<!--              <label>Poids enfant (kg)</label>-->
+<!--              <ion-input [(ngModel)]="patient.poids" name="poids"-->
+<!--                         type="number" placeholder="11.5" fill="outline"-->
+<!--                         (ionChange)="calculerZScores()">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--            <div class="fld">-->
+<!--              <label>Taille enfant (cm)</label>-->
+<!--              <ion-input [(ngModel)]="patient.taille" name="taille"-->
+<!--                         type="number" placeholder="82" fill="outline"-->
+<!--                         (ionChange)="calculerZScores()">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <!-- Z-scores calculés automatiquement -->
-          <div class="zscores-preview"
-               *ngIf="patient.zscore_taille_age !== null">
-            <div class="zscore-item"
-                 [ngClass]="getZClass(patient.zscore_taille_age!)">
-              <span class="zs-label">Z-score taille/âge</span>
-              <span class="zs-value">{{ patient.zscore_taille_age }}</span>
-              <span class="zs-status">
-                {{ getZLabel(patient.zscore_taille_age!) }}
-              </span>
-            </div>
-            <div class="zscore-item"
-                 [ngClass]="getZClass(patient.zscore_poids_taille!)">
-              <span class="zs-label">Z-score poids/taille</span>
-              <span class="zs-value">{{ patient.zscore_poids_taille }}</span>
-              <span class="zs-status">
-                {{ getZLabel(patient.zscore_poids_taille!) }}
-              </span>
-            </div>
-          </div>
+<!--          &lt;!&ndash; Z-scores calculés automatiquement &ndash;&gt;-->
+<!--          <div class="zscores-preview"-->
+<!--               *ngIf="patient.zscore_taille_age !== null">-->
+<!--            <div class="zscore-item"-->
+<!--                 [ngClass]="getZClass(patient.zscore_taille_age!)">-->
+<!--              <span class="zs-label">Z-score taille/âge</span>-->
+<!--              <span class="zs-value">{{ patient.zscore_taille_age }}</span>-->
+<!--              <span class="zs-status">-->
+<!--                {{ getZLabel(patient.zscore_taille_age!) }}-->
+<!--              </span>-->
+<!--            </div>-->
+<!--            <div class="zscore-item"-->
+<!--                 [ngClass]="getZClass(patient.zscore_poids_taille!)">-->
+<!--              <span class="zs-label">Z-score poids/taille</span>-->
+<!--              <span class="zs-value">{{ patient.zscore_poids_taille }}</span>-->
+<!--              <span class="zs-status">-->
+<!--                {{ getZLabel(patient.zscore_poids_taille!) }}-->
+<!--              </span>-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <p class="help-text" *ngIf="patient.zscore_taille_age === null">
-            Saisissez poids, taille et âge — les z-scores OMS seront
-            calculés automatiquement
-          </p>
+<!--          <p class="help-text" *ngIf="patient.zscore_taille_age === null">-->
+<!--            Saisissez poids, taille et âge — les z-scores OMS seront-->
+<!--            calculés automatiquement-->
+<!--          </p>-->
 
-        </div>
-      </div>
+<!--        </div>-->
+<!--      </div>-->
 
       <!-- Section 3 : Facteurs cliniques enfant -->
       <div class="form-section">
@@ -133,7 +134,7 @@
                    (click)="setDiarrhee(0)"> Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.diarrhee === 1">
-              ⚠️ Diarrhée présente — facteur de risque
+               Diarrhée présente — facteur de risque
             </p>
             <p class="status-text success" *ngIf="patient.diarrhee === 0">
               ✓ Pas de diarrhée
@@ -149,12 +150,41 @@
                    (click)="setFievre(0)"> Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.fievre === 1">
-              ⚠️ Fièvre présente — facteur significatif (OR=1.52)
+              Fièvre présente — facteur significatif (OR=1.52)
             </p>
             <p class="status-text success" *ngIf="patient.fievre === 0">
-              ✓ Pas de fièvre
+               Pas de fièvre
             </p>
           </div>
+
+          <div class="fld">
+            <label>Déparasitage récente</label>
+            <div class="radio-group">
+              <div class="radio-opt" [class.active]="patient.fievre === 1"
+                   (click)="setDeparasitage(1)"> Oui</div>
+              <div class="radio-opt" [class.active]="patient.fievre === 0"
+                   (click)="setDeparasitage(0)"> Non</div>
+            </div>
+            <p class="status-text danger" *ngIf="patient.fievre === 1">
+              Déparasité récemment
+            </p>
+            <p class="status-text success" *ngIf="patient.fievre === 0">
+              Non déparasité
+            </p>
+          </div>
+
+          <div class="fld">
+            <label>Type d'allaitement *</label>
+            <ion-select [(ngModel)]="patient.type_allaitement"
+                        name="type_allaitement"
+                        placeholder="Sélectionner..." fill="outline">
+              <ion-select-option [value]="0">Pas d'allaitement</ion-select-option>
+              <ion-select-option [value]="1">Allaitement exclusif</ion-select-option>
+              <ion-select-option [value]="2">Allaitement mixte</ion-select-option>
+              <ion-select-option [value]="3">Allaitement partiel</ion-select-option>
+            </ion-select>
+          </div>
+
 
         </div>
       </div>
@@ -198,34 +228,34 @@
             </div>
           </div>
 
-          <!-- IMC mère calculé automatiquement -->
-          <div class="section-sub">IMC mère (calculé automatiquement)</div>
-          <div class="field-row">
-            <div class="fld">
-              <label>Poids mère (kg)</label>
-              <ion-input [(ngModel)]="patient.bmi_poids_mere"
-                         name="bmi_poids"
-                         type="number" placeholder="60" fill="outline"
-                         (ionChange)="calculerBMI()">
-              </ion-input>
-            </div>
-            <div class="fld">
-              <label>Taille mère (cm)</label>
-              <ion-input [(ngModel)]="patient.bmi_taille_mere"
-                         name="bmi_taille"
-                         type="number" placeholder="160" fill="outline"
-                         (ionChange)="calculerBMI()">
-              </ion-input>
-            </div>
-          </div>
+<!--          &lt;!&ndash; IMC mère calculé automatiquement &ndash;&gt;-->
+<!--          <div class="section-sub">IMC mère (calculé automatiquement)</div>-->
+<!--          <div class="field-row">-->
+<!--            <div class="fld">-->
+<!--              <label>Poids mère (kg)</label>-->
+<!--              <ion-input [(ngModel)]="patient.bmi_poids_mere"-->
+<!--                         name="bmi_poids"-->
+<!--                         type="number" placeholder="60" fill="outline"-->
+<!--                         (ionChange)="calculerBMI()">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--            <div class="fld">-->
+<!--              <label>Taille mère (cm)</label>-->
+<!--              <ion-input [(ngModel)]="patient.bmi_taille_mere"-->
+<!--                         name="bmi_taille"-->
+<!--                         type="number" placeholder="160" fill="outline"-->
+<!--                         (ionChange)="calculerBMI()">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <div class="bmi-preview" *ngIf="patient.BMI !== null">
-            <ion-icon name="analytics-outline"></ion-icon>
-            <span>IMC : <strong>{{ patient.BMI }} kg/m²</strong></span>
-            <span class="bmi-status" [ngClass]="getBMIClass(patient.BMI!)">
-              {{ getBMILabel(patient.BMI!) }}
-            </span>
-          </div>
+<!--          <div class="bmi-preview" *ngIf="patient.BMI !== null">-->
+<!--            <ion-icon name="analytics-outline"></ion-icon>-->
+<!--            <span>IMC : <strong>{{ patient.BMI }} kg/m²</strong></span>-->
+<!--            <span class="bmi-status" [ngClass]="getBMIClass(patient.BMI!)">-->
+<!--              {{ getBMILabel(patient.BMI!) }}-->
+<!--            </span>-->
+<!--          </div>-->
 
         </div>
       </div>
@@ -262,8 +292,55 @@
             </ion-select>
           </div>
 
+          <div class="fld">
+            <label>Région *</label>
+            <ion-select [(ngModel)]="patient.region" name="region"
+                        placeholder="Sélectionner..." fill="outline">
+              <ion-select-option [value]="1">Adamaoua</ion-select-option>
+              <ion-select-option [value]="2">Centre</ion-select-option>
+              <ion-select-option [value]="3">Est</ion-select-option>
+              <ion-select-option [value]="4">Extrême-Nord</ion-select-option>
+              <ion-select-option [value]="5">Littoral</ion-select-option>
+              <ion-select-option [value]="6">Nord</ion-select-option>
+              <ion-select-option [value]="7">Nord-Ouest</ion-select-option>
+              <ion-select-option [value]="8">Ouest</ion-select-option>
+              <ion-select-option [value]="9">Sud</ion-select-option>
+              <ion-select-option [value]="10">Sud-Ouest</ion-select-option>
+            </ion-select>
+          </div>
+
         </div>
       </div>
+
+      <!-- Section 5 : Informations praticien (optionnel) -->
+<!--      <div class="form-section">-->
+<!--        <div class="section-label">-->
+<!--          <ion-icon name="medical-outline"></ion-icon>-->
+<!--          <span>Informations praticien (optionnel)</span>-->
+<!--        </div>-->
+<!--        <div class="form-card">-->
+<!--          <div class="field-row">-->
+<!--            <div class="fld">-->
+<!--              <label>Nom du praticien</label>-->
+<!--              <ion-input [(ngModel)]="patient.nom_praticien" name="praticien"-->
+<!--                         type="text" placeholder="Dr. Mballa" fill="outline">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--            <div class="fld">-->
+<!--              <label>Structure de santé</label>-->
+<!--              <ion-input [(ngModel)]="patient.structure_sante" name="structure"-->
+<!--                         type="text" placeholder="CS Bastos" fill="outline">-->
+<!--              </ion-input>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="fld">-->
+<!--            <label>Notes</label>-->
+<!--            <ion-input [(ngModel)]="patient.notes" name="notes"-->
+<!--                       type="text" placeholder="Observations..." fill="outline">-->
+<!--            </ion-input>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
       <button class="submit-btn" type="submit"
               [disabled]="!valide() || loading">
