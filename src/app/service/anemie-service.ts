@@ -131,7 +131,7 @@ export class AnemieService {
   // ── Simulation si API non disponible ─────────────────
   simuler(): PredictionResult {
     const r    = Math.random();
-    const pred = r < 0.42 ? 0 : r < 0.68 ? 1 : 2;
+    const pred = r < 0.425 ? 0 : r < 0.68 ? 1 : 2;
     const labels: any = {
       0: 'Pas anémie', 1: 'Anémie légère', 2: 'Anémie modérée/sévère'
     };
@@ -160,59 +160,5 @@ export class AnemieService {
     };
   }
 
-
-  // ── Historique local ─────────────────────────────────
-  // sauvegarderHistorique(patient: any, resultat: PredictionResult) {
-  //   const entree = {
-  //     id:      Date.now(),
-  //     date:    new Date().toISOString(),
-  //     patient,
-  //     resultat,
-  //   };
-  //   const historique = this.getHistorique();
-  //   historique.unshift(entree);
-  //   localStorage.setItem('imas_historique', JSON.stringify(historique));
-  //   return entree;
-  // }
-
-  // getHistorique(): any[] {
-  //   return JSON.parse(localStorage.getItem('imas_historique') || '[]');
-  // }
-
-  // supprimerHistorique(id: number) {
-  //   const historique = this.getHistorique().filter(h => h.id !== id);
-  //   localStorage.setItem('imas_historique', JSON.stringify(historique));
-  // }
-
-  // ── Simulation si API non disponible ─────────────────
-  // simuler(): PredictionResult {
-  //   const r    = Math.random();
-  //   const pred = r < 0.42 ? 0 : r < 0.68 ? 1 : 2;
-  //   const labels: any = {
-  //     0: 'Pas anémie', 1: 'Anémie légère', 2: 'Anémie modérée/sévère'
-  //   };
-  //   const p0 = pred === 0 ? 0.6 + Math.random() * 0.3 : Math.random() * 0.2;
-  //   const p1 = pred === 1 ? 0.5 + Math.random() * 0.3 : Math.random() * 0.2;
-  //   const p2 = pred === 2 ? 0.5 + Math.random() * 0.3 : Math.random() * 0.2;
-  //   return {
-  //     random_forest: {
-  //       prediction: pred, label: labels[pred],
-  //       probabilites: {
-  //         pas_anemie:    +p0.toFixed(4),
-  //         leger:         +p1.toFixed(4),
-  //         modere_severe: +p2.toFixed(4),
-  //       }
-  //     },
-  //     ordinal: {
-  //       prediction: pred, label: labels[pred],
-  //       probabilites: {
-  //         pas_anemie:    +p0.toFixed(4),
-  //         leger:         +p1.toFixed(4),
-  //         modere_severe: +p2.toFixed(4),
-  //       }
-  //     },
-  //     diagnostic_final: labels[pred]
-  //   };
-  // }
 
 }
