@@ -160,9 +160,9 @@
           <div class="fld">
             <label>Déparasitage récente</label>
             <div class="radio-group">
-              <div class="radio-opt" [class.active]="patient.fievre === 1"
+              <div class="radio-opt" [class.active]="patient.deparasitage === 1"
                    (click)="setDeparasitage(1)"> Oui</div>
-              <div class="radio-opt" [class.active]="patient.fievre === 0"
+              <div class="radio-opt" [class.active]="patient.deparasitage === 0"
                    (click)="setDeparasitage(0)"> Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.fievre === 1">
