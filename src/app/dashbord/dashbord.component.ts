@@ -56,7 +56,7 @@ export class DashbordComponent implements OnInit {
   consultations: ConsultationHistorique[] = [];
 
   actions = [
-    { label: 'Nouveau patient',  desc: 'Saisir les variables et lancer la prédiction IA', icon: 'person-add-outline', path: '/patient',    cls: 'blue'   },
+    { label: 'Prediction patient',  desc: 'Saisir les variables et lancer la prédiction IA', icon: 'person-add-outline', path: '/patient',    cls: 'blue'   },
     { label: 'Historique',       desc: 'Consulter les analyses précédentes',               icon: 'time-outline',       path: '/historique', cls: 'green'  },
     { label: 'Graphiques',       desc: 'Facteurs d\'influence de l\'anémie',               icon: 'bar-chart-outline',  path: '/graphiques', cls: 'amber'  },
     { label: 'Modèles IA',       desc: 'Performances Random Forest · Régression Ordinale', icon: 'analytics-outline',  path: '/modele',     cls: 'purple' },
