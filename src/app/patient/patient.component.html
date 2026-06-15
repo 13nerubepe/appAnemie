@@ -44,8 +44,7 @@
             <div class="fld">
               <label>Âge enfant (mois) *</label>
               <ion-input [(ngModel)]="patient.age_enfant_mois" name="age"
-                         type="number" placeholder="6 – 59" fill="outline"
-                         (ionChange)="calculerZScores()">
+                         type="number" placeholder="6 – 59" fill="outline">
               </ion-input>
             </div>
             <div class="fld">
@@ -126,7 +125,7 @@
         <div class="form-card">
 
           <div class="fld">
-            <label>Diarrhée (2 dernières semaines)</label>
+            <label>Diarrhée récente</label>
             <div class="radio-group">
               <div class="radio-opt" [class.active]="patient.diarrhee === 1"
                    (click)="setDiarrhee(1)"> Oui</div>
@@ -134,7 +133,7 @@
                    (click)="setDiarrhee(0)"> Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.diarrhee === 1">
-               Diarrhée présente — facteur de risque
+               Diarrhée présente
             </p>
             <p class="status-text success" *ngIf="patient.diarrhee === 0">
               ✓ Pas de diarrhée
@@ -150,7 +149,7 @@
                    (click)="setFievre(0)"> Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.fievre === 1">
-              Fièvre présente — facteur significatif (OR=1.52)
+              Fièvre présente
             </p>
             <p class="status-text success" *ngIf="patient.fievre === 0">
                Pas de fièvre
