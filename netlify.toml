@@ -1,9 +1,10 @@
 [build]
-command = "npm install --force && npm run build --production"
+command = "run build --production"
 publish = "www"
 
 [build.environment]
 NODE_VERSION = "20"
+NPM_FLAGS = "--legacy-peer-deps"
 
 [[redirects]]
 from   = "/*"
