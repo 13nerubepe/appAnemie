@@ -3,12 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
     </ion-buttons>
+
     <div class="toolbar-inner">
       <div class="toolbar-logo">
         <ion-icon name="bar-chart-outline"></ion-icon>
       </div>
+
       <div>
-        <div class="toolbar-title">Graphiques</div>
+        <div class="toolbar-title">Dashboard Anémie</div>
         <div class="toolbar-sub">Analyse EDS Cameroun 2018</div>
       </div>
     </div>
@@ -16,22 +18,35 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <div class="page-content">
 
-    <div class="card">
+    <!-- =========================
+         IMPORTANCE VARIABLES
+    ========================== -->
+    <div class="card soft-card">
+
       <div class="card-title">
         <ion-icon name="podium-outline"></ion-icon>
-        Importance des variables (Random Forest)
+        Importance des variables
       </div>
-      <canvas id="barChart" height="300"></canvas>
+
+      <canvas id="barChart" height="280"></canvas>
+
     </div>
 
-    <div class="card">
+    <!-- =========================
+         REPARTITION ANEMIE
+    ========================== -->
+    <div class="card soft-card">
+
       <div class="card-title">
         <ion-icon name="pie-chart-outline"></ion-icon>
-        Répartition des cas · 3 987 enfants
+        Répartition des niveaux d'anémie
       </div>
-      <canvas id="donutChart" height="250"></canvas>
+
+      <canvas id="donutChart" height="240"></canvas>
+
       <div class="legend">
         <div class="leg-item" *ngFor="let r of repartition">
           <div class="leg-dot" [style.background]="r.color"></div>
@@ -39,32 +54,83 @@
           <strong>{{ r.pct }}%</strong>
         </div>
       </div>
+
     </div>
 
-    <div class="card">
+    <!-- =========================
+         SEXE (NOUVEAU)
+    ========================== -->
+    <div class="card soft-card">
+
+      <div class="card-title">
+        <ion-icon name="male-female-outline"></ion-icon>
+        Anémie selon le sexe
+      </div>
+
+      <canvas id="sexDonut" height="240"></canvas>
+
+      <div class="legend">
+        <div class="leg-item" *ngFor="let s of sexeRepartition">
+          <div class="leg-dot" [style.background]="s.color"></div>
+          <span>{{ s.label }}</span>
+          <strong>{{ s.pct }}%</strong>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =========================
+         EVOLUTION CONSULTATIONS
+    ========================== -->
+    <div class="card soft-card">
+
       <div class="card-title">
         <ion-icon name="analytics-outline"></ion-icon>
-        Hémoglobine par âge (g/dL)
+        Évolution des consultations
       </div>
+
       <canvas id="lineChart" height="250"></canvas>
+
     </div>
 
-    <div class="card">
+    <!-- =========================
+         PREVALENCE AGE
+    ========================== -->
+    <div class="card soft-card">
+
       <div class="card-title">
-        <ion-icon name="analytics-outline"></ion-icon>
-        Prévalence par tranche d'âge
+        <ion-icon name="trending-up-outline"></ion-icon>
+        Prévalence par âge
       </div>
+
       <div class="bar-row" *ngFor="let t of tranches">
         <span class="bar-label">{{ t.label }}</span>
+
         <div class="bar-track">
           <div class="bar-fill"
-               [style.width.%]="t.pct"
-               style="background:#1a237e">
+               [style.width.%]="t.pct">
           </div>
         </div>
+
         <span class="bar-pct">{{ t.pct }}%</span>
       </div>
+
+    </div>
+
+    <!-- =========================
+         PREVALENCE REGION (OPTION FUTURE MAP)
+    ========================== -->
+    <div class="card soft-card">
+
+      <div class="card-title">
+        <ion-icon name="map-outline"></ion-icon>
+        Anémie par région
+      </div>
+
+      <canvas id="regionChart" height="260"></canvas>
+
     </div>
 
   </div>
+
 </ion-content>

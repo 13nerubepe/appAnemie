@@ -7,7 +7,6 @@
       <div class="toolbar-logo"><ion-icon name="person-add-outline"></ion-icon></div>
       <div>
         <div class="toolbar-title">Nouveau patient</div>
-<!--        <div class="toolbar-sub">11 variables · Prédiction IA</div>-->
       </div>
     </div>
   </ion-toolbar>
@@ -17,7 +16,7 @@
   <div class="form-content">
     <form (ngSubmit)="onSubmit()">
 
-      <!-- Section 1 : Infos générales -->
+      <!-- Section 1 : Informations générales -->
       <div class="form-section">
         <div class="section-label">
           <ion-icon name="person-circle-outline"></ion-icon>
@@ -56,67 +55,12 @@
                      (click)="setSexe(0)">Féminin</div>
               </div>
             </div>
-
           </div>
 
         </div>
       </div>
 
-      <!-- Section 2 : Mesures anthropométriques → Z-scores calculés auto -->
-<!--      <div class="form-section">-->
-<!--        <div class="section-label">-->
-<!--          <ion-icon name="water-outline"></ion-icon>-->
-<!--          <span>Mesures anthropométriques *</span>-->
-<!--        </div>-->
-<!--        <div class="form-card">-->
-
-<!--          <div class="field-row">-->
-<!--            <div class="fld">-->
-<!--              <label>Poids enfant (kg)</label>-->
-<!--              <ion-input [(ngModel)]="patient.poids" name="poids"-->
-<!--                         type="number" placeholder="11.5" fill="outline"-->
-<!--                         (ionChange)="calculerZScores()">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--            <div class="fld">-->
-<!--              <label>Taille enfant (cm)</label>-->
-<!--              <ion-input [(ngModel)]="patient.taille" name="taille"-->
-<!--                         type="number" placeholder="82" fill="outline"-->
-<!--                         (ionChange)="calculerZScores()">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          &lt;!&ndash; Z-scores calculés automatiquement &ndash;&gt;-->
-<!--          <div class="zscores-preview"-->
-<!--               *ngIf="patient.zscore_taille_age !== null">-->
-<!--            <div class="zscore-item"-->
-<!--                 [ngClass]="getZClass(patient.zscore_taille_age!)">-->
-<!--              <span class="zs-label">Z-score taille/âge</span>-->
-<!--              <span class="zs-value">{{ patient.zscore_taille_age }}</span>-->
-<!--              <span class="zs-status">-->
-<!--                {{ getZLabel(patient.zscore_taille_age!) }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            <div class="zscore-item"-->
-<!--                 [ngClass]="getZClass(patient.zscore_poids_taille!)">-->
-<!--              <span class="zs-label">Z-score poids/taille</span>-->
-<!--              <span class="zs-value">{{ patient.zscore_poids_taille }}</span>-->
-<!--              <span class="zs-status">-->
-<!--                {{ getZLabel(patient.zscore_poids_taille!) }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <p class="help-text" *ngIf="patient.zscore_taille_age === null">-->
-<!--            Saisissez poids, taille et âge — les z-scores OMS seront-->
-<!--            calculés automatiquement-->
-<!--          </p>-->
-
-<!--        </div>-->
-<!--      </div>-->
-
-      <!-- Section 3 : Facteurs cliniques enfant -->
+      <!-- Section 2 : Facteurs cliniques enfant -->
       <div class="form-section">
         <div class="section-label">
           <ion-icon name="pulse-outline"></ion-icon>
@@ -128,15 +72,15 @@
             <label>Diarrhée récente</label>
             <div class="radio-group">
               <div class="radio-opt" [class.active]="patient.diarrhee === 1"
-                   (click)="setDiarrhee(1)"> Oui</div>
+                   (click)="setDiarrhee(1)">Oui</div>
               <div class="radio-opt" [class.active]="patient.diarrhee === 0"
-                   (click)="setDiarrhee(0)"> Non</div>
+                   (click)="setDiarrhee(0)">Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.diarrhee === 1">
-               Diarrhée présente
+              Diarrhée présente
             </p>
             <p class="status-text success" *ngIf="patient.diarrhee === 0">
-              ✓ Pas de diarrhée
+              Pas de diarrhée
             </p>
           </div>
 
@@ -144,30 +88,30 @@
             <label>Fièvre récente</label>
             <div class="radio-group">
               <div class="radio-opt" [class.active]="patient.fievre === 1"
-                   (click)="setFievre(1)"> Oui</div>
+                   (click)="setFievre(1)">Oui</div>
               <div class="radio-opt" [class.active]="patient.fievre === 0"
-                   (click)="setFievre(0)"> Non</div>
+                   (click)="setFievre(0)">Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.fievre === 1">
-              Fièvre présente
+              Fièvre présente — facteur significatif (OR = 1.31)
             </p>
             <p class="status-text success" *ngIf="patient.fievre === 0">
-               Pas de fièvre
+              Pas de fièvre
             </p>
           </div>
 
           <div class="fld">
-            <label>Déparasitage récente</label>
+            <label>Déparasitage récent</label>
             <div class="radio-group">
               <div class="radio-opt" [class.active]="patient.deparasitage === 1"
-                   (click)="setDeparasitage(1)"> Oui</div>
+                   (click)="setDeparasitage(1)">Oui</div>
               <div class="radio-opt" [class.active]="patient.deparasitage === 0"
-                   (click)="setDeparasitage(0)"> Non</div>
+                   (click)="setDeparasitage(0)">Non</div>
             </div>
-            <p class="status-text danger" *ngIf="patient.fievre === 1">
-              Déparasité récemment
+            <p class="status-text success" *ngIf="patient.deparasitage === 1">
+              Déparasité récemment — facteur protecteur (OR = 0.90)
             </p>
-            <p class="status-text success" *ngIf="patient.fievre === 0">
+            <p class="status-text danger" *ngIf="patient.deparasitage === 0">
               Non déparasité
             </p>
           </div>
@@ -184,11 +128,10 @@
             </ion-select>
           </div>
 
-
         </div>
       </div>
 
-      <!-- Section 4 : Facteurs maternels -->
+      <!-- Section 3 : Facteurs maternels -->
       <div class="form-section">
         <div class="section-label">
           <ion-icon name="person-circle-outline"></ion-icon>
@@ -200,11 +143,14 @@
             <label>Statut anémique de la mère</label>
             <ion-select [(ngModel)]="patient.anemie_mere" name="anemie_mere"
                         placeholder="Sélectionner..." fill="outline">
-              <ion-select-option [value]="0">Pas anémie</ion-select-option>
+              <ion-select-option [value]="0">Pas anémique</ion-select-option>
               <ion-select-option [value]="1">Anémie légère</ion-select-option>
               <ion-select-option [value]="2">Anémie modérée</ion-select-option>
               <ion-select-option [value]="3">Anémie sévère</ion-select-option>
             </ion-select>
+            <p class="status-text danger" *ngIf="patient.anemie_mere && patient.anemie_mere > 0">
+              Anémie maternelle — facteur de risque le plus fort (OR = 1.50)
+            </p>
           </div>
 
           <div class="field-row">
@@ -227,39 +173,10 @@
             </div>
           </div>
 
-<!--          &lt;!&ndash; IMC mère calculé automatiquement &ndash;&gt;-->
-<!--          <div class="section-sub">IMC mère (calculé automatiquement)</div>-->
-<!--          <div class="field-row">-->
-<!--            <div class="fld">-->
-<!--              <label>Poids mère (kg)</label>-->
-<!--              <ion-input [(ngModel)]="patient.bmi_poids_mere"-->
-<!--                         name="bmi_poids"-->
-<!--                         type="number" placeholder="60" fill="outline"-->
-<!--                         (ionChange)="calculerBMI()">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--            <div class="fld">-->
-<!--              <label>Taille mère (cm)</label>-->
-<!--              <ion-input [(ngModel)]="patient.bmi_taille_mere"-->
-<!--                         name="bmi_taille"-->
-<!--                         type="number" placeholder="160" fill="outline"-->
-<!--                         (ionChange)="calculerBMI()">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="bmi-preview" *ngIf="patient.BMI !== null">-->
-<!--            <ion-icon name="analytics-outline"></ion-icon>-->
-<!--            <span>IMC : <strong>{{ patient.BMI }} kg/m²</strong></span>-->
-<!--            <span class="bmi-status" [ngClass]="getBMIClass(patient.BMI!)">-->
-<!--              {{ getBMILabel(patient.BMI!) }}-->
-<!--            </span>-->
-<!--          </div>-->
-
         </div>
       </div>
 
-      <!-- Section 5 : Facteurs socio-économiques -->
+      <!-- Section 4 : Facteurs socio-économiques -->
       <div class="form-section">
         <div class="section-label">
           <ion-icon name="analytics-outline"></ion-icon>
@@ -272,10 +189,10 @@
             <div class="radio-group">
               <div class="radio-opt"
                    [class.active]="patient.milieu_residence === 0"
-                   (click)="setMilieu(0)"> Urbain</div>
+                   (click)="setMilieu(0)">Urbain</div>
               <div class="radio-opt"
                    [class.active]="patient.milieu_residence === 1"
-                   (click)="setMilieu(1)"> Rural</div>
+                   (click)="setMilieu(1)">Rural</div>
             </div>
           </div>
 
@@ -312,34 +229,42 @@
       </div>
 
       <!-- Section 5 : Informations praticien (optionnel) -->
-<!--      <div class="form-section">-->
-<!--        <div class="section-label">-->
-<!--          <ion-icon name="medical-outline"></ion-icon>-->
-<!--          <span>Informations praticien (optionnel)</span>-->
-<!--        </div>-->
-<!--        <div class="form-card">-->
-<!--          <div class="field-row">-->
-<!--            <div class="fld">-->
-<!--              <label>Nom du praticien</label>-->
-<!--              <ion-input [(ngModel)]="patient.nom_praticien" name="praticien"-->
-<!--                         type="text" placeholder="Dr. Mballa" fill="outline">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--            <div class="fld">-->
-<!--              <label>Structure de santé</label>-->
-<!--              <ion-input [(ngModel)]="patient.structure_sante" name="structure"-->
-<!--                         type="text" placeholder="CS Bastos" fill="outline">-->
-<!--              </ion-input>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="fld">-->
-<!--            <label>Notes</label>-->
-<!--            <ion-input [(ngModel)]="patient.notes" name="notes"-->
-<!--                       type="text" placeholder="Observations..." fill="outline">-->
-<!--            </ion-input>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="form-section">
+        <div class="section-label">
+          <ion-icon name="medical-outline"></ion-icon>
+          <span>Informations praticien (optionnel)</span>
+        </div>
+        <div class="form-card">
+          <div class="field-row">
+            <div class="fld">
+              <label>Prénom praticien</label>
+              <ion-input [(ngModel)]="patient.prenom" name="prenom_praticien"
+                         type="text" placeholder="Dr. Mballa" fill="outline">
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Nom praticien</label>
+              <ion-input [(ngModel)]="patient.nom" name="nom_praticien"
+                         type="text" placeholder="Ateba" fill="outline">
+              </ion-input>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="fld">
+              <label>Structure de santé</label>
+              <ion-input [(ngModel)]="patient.structure_sante" name="structure"
+                         type="text" placeholder="CS Bastos" fill="outline">
+              </ion-input>
+            </div>
+            <div class="fld">
+              <label>Notes</label>
+              <ion-input [(ngModel)]="patient.notes" name="notes"
+                         type="text" placeholder="Observations..." fill="outline">
+              </ion-input>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <button class="submit-btn" type="submit"
               [disabled]="!valide() || loading">

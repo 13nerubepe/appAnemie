@@ -3,32 +3,38 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 
+import {
+  AnemieStats,
+  FeatureImportance,
+  DashboardStats
+} from '../models/State';
+
 // =========================
-// INPUT MODEL (OK)
+// INPUT MODEL
 // =========================
 export interface PatientInput {
-  sexe_enfant: number;
-  age_enfant_mois: number;
-  diarrhee: number;
-  fievre: number;
-  deparasitage: number;
-  type_allaitement: number;
+  sexe_enfant:        number;
+  age_enfant_mois:    number;
+  diarrhee:           number;
+  fievre:             number;
+  deparasitage:       number;
+  type_allaitement:   number;
 
-  age_mere: number;
-  anemie_mere: number;
+  age_mere:           number;
+  anemie_mere:        number;
   niveau_instruction: number;
 
-  indice_richesse: number;
-  milieu_residence: number;
-  region: number;
+  indice_richesse:    number;
+  milieu_residence:   number;
+  region:             number;
 
-  nom_praticien?: string;
+  nom_praticien?:  string;
   structure_sante?: string;
-  notes?: string;
+  notes?:          string;
 }
 
 // =========================
-// RESPONSE API (CORRIGÉ)
+// RESPONSE API
 // =========================
 export interface PredictionResult {
   id: number;
@@ -46,6 +52,11 @@ export interface PredictionResult {
   ordinal: {
     prediction: number;
     label: string;
+    probabilites: {
+      pas_anemie:    number;
+      leger:         number;
+      modere_severe: number;
+    };
   };
 
   diagnostic_final: string;
@@ -55,28 +66,28 @@ export interface PredictionResult {
 // HISTORIQUE
 // =========================
 export interface ConsultationHistorique {
-  id: number;
-  created_at: string;
+  id:                 number;
+  created_at:         string;
 
-  sexe_enfant: number;
-  age_enfant_mois: number;
-  diarrhee: number;
-  fievre: number;
-  deparasitage: number;
-  type_allaitement: number;
+  sexe_enfant:        number;
+  age_enfant_mois:    number;
+  diarrhee:           number;
+  fievre:             number;
+  deparasitage:       number;
+  type_allaitement:   number;
 
-  age_mere: number;
-  anemie_mere: number;
+  age_mere:           number;
+  anemie_mere:        number;
   niveau_instruction: number;
 
-  indice_richesse: number;
-  milieu_residence: number;
-  region: number;
+  indice_richesse:    number;
+  milieu_residence:   number;
+  region:             number;
 
-  diagnostic_final: string;
-  label_rf: string;
+  diagnostic_final:   string;
+  label_rf:           string;
 
-  nom_praticien: string | null;
+  nom_praticien:   string | null;
   structure_sante: string | null;
 }
 
@@ -97,10 +108,7 @@ export interface ListeConsultations {
 export class AnemieService {
 
   private http = inject(HttpClient);
-
-  private api = environment.apiUrl;
-
-  // constructor(private http: HttpClient) {}
+  private api  = environment.apiUrl;
 
   // ── PREDICTION ─────────────────────────
   predict(data: PatientInput): Observable<PredictionResult> {
@@ -132,13 +140,14 @@ export class AnemieService {
     return this.http.delete(`${this.api}/consultations/${id}`);
   }
 
-  // ── SIMULATION (inchangée logique) ──────
+
+  // ── SIMULATION ──────────────────────────
   simuler(): PredictionResult {
 
-    const r = Math.random();
+    const r    = Math.random();
     const pred = r < 0.425 ? 0 : r < 0.68 ? 1 : 2;
 
-    const labels: any = {
+    const labels: { [key: number]: string } = {
       0: 'Pas anémie',
       1: 'Anémie légère',
       2: 'Anémie modérée/sévère'
@@ -153,7 +162,7 @@ export class AnemieService {
 
       random_forest: {
         prediction: pred,
-        label: labels[pred],
+        label:      labels[pred],
         probabilites: {
           classe_0: +p0.toFixed(4),
           classe_1: +p1.toFixed(4),
@@ -163,10 +172,46 @@ export class AnemieService {
 
       ordinal: {
         prediction: pred,
-        label: labels[pred]
+        label:      labels[pred],
+        probabilites: {
+          pas_anemie:    +p0.toFixed(4),
+          leger:         +p1.toFixed(4),
+          modere_severe: +p2.toFixed(4),
+        }
       },
 
       diagnostic_final: labels[pred]
     };
   }
+
+
+
+  // ── STATISTIQUES ──────────────────────────
+
+  getStatsAnemie(): Observable<AnemieStats> {
+    return this.http.get<AnemieStats>(
+      `${this.api}/stats/anemie`
+    );
+  }
+
+  getStatsFeatures(): Observable<FeatureImportance[]> {
+    return this.http.get<FeatureImportance[]>(
+      `${this.api}/stats/features`
+    );
+  }
+
+  getStatsDashboard(): Observable<DashboardStats> {
+    return this.http.get<DashboardStats>(
+      `${this.api}/stats/dashboard`
+    );
+  }
+
+  getStatsRegion(): Observable<any> {
+    return this.http.get(`${this.api}/stats/anemie/region`);
+  }
+
+  getStatsAnemieSexe(): Observable<any> {
+    return this.http.get(`${this.api}/stats/anemie-sexe`);
+  }
+
 }

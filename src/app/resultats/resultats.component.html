@@ -4,7 +4,9 @@
       <ion-back-button defaultHref="/patient" text=""></ion-back-button>
     </ion-buttons>
     <div class="toolbar-inner">
-      <div class="toolbar-logo"><ion-icon name="pulse-outline"></ion-icon></div>
+      <div class="toolbar-logo">
+        <ion-icon name="pulse-outline"></ion-icon>
+      </div>
       <div>
         <div class="toolbar-title">Résultat de l'analyse</div>
         <div class="toolbar-sub">{{ today | date:'d MMM yyyy · HH:mm' }}</div>
@@ -13,21 +15,21 @@
   </ion-toolbar>
 
   <div class="tabs-bar">
-    <div class="tab" [class.active]="activeTab==='diagnostic'"
-         (click)="activeTab='diagnostic'">Diagnostic</div>
-    <div class="tab" [class.active]="activeTab==='modeles'"
-         (click)="activeTab='modeles'">Modèles</div>
-    <div class="tab" [class.active]="activeTab==='recos'"
-         (click)="activeTab='recos'">Recommandations</div>
-    <div class="tab" [class.active]="activeTab==='facteurs'"
-         (click)="activeTab='facteurs'">Facteurs IA</div>
+    <div class="tab" [class.active]="activeTab === 'diagnostic'"
+         (click)="activeTab = 'diagnostic'">Diagnostic</div>
+    <div class="tab" [class.active]="activeTab === 'modeles'"
+         (click)="activeTab = 'modeles'">Modèles</div>
+    <div class="tab" [class.active]="activeTab === 'recos'"
+         (click)="activeTab = 'recos'">Recommandations</div>
+    <div class="tab" [class.active]="activeTab === 'facteurs'"
+         (click)="activeTab = 'facteurs'">Facteurs IA</div>
   </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="page-content">
 
-    <!-- ═══ DIAGNOSTIC ═══ -->
+    <!-- ═══ ONGLET 1 : DIAGNOSTIC ═══ -->
     <ng-container *ngIf="activeTab === 'diagnostic'">
 
       <div class="banner" [ngClass]="getBannerClass()">
@@ -55,7 +57,8 @@
         </div>
         <div class="sev-steps">
           <div class="sev-step" *ngFor="let s of severites; let i = index">
-            <div class="sev-line" *ngIf="i > 0" [ngClass]="{'done': getNiveau() >= i}"></div>
+            <div class="sev-line" *ngIf="i > 0"
+                 [ngClass]="{'done': getNiveau() >= i}"></div>
             <div class="sev-dot" [ngClass]="getDotClass(i)">
               {{ getNiveau() > i ? '✓' : i + 1 }}
             </div>
@@ -72,7 +75,9 @@
         <div class="bar-row" *ngFor="let p of getProbasRF()">
           <span class="bar-label">{{ p.label }}</span>
           <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="p.pct" [style.background]="p.color"></div>
+            <div class="bar-fill"
+                 [style.width.%]="p.pct"
+                 [style.background]="p.color"></div>
           </div>
           <span class="bar-pct">{{ p.pct }}%</span>
         </div>
@@ -89,14 +94,15 @@
 
     </ng-container>
 
-    <!-- ═══ MODÈLES ═══ -->
+    <!-- ═══ ONGLET 2 : MODÈLES ═══ -->
     <ng-container *ngIf="activeTab === 'modeles'">
 
+      <!-- Random Forest -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="git-branch-outline"></ion-icon>
           Random Forest
-          <span class="best-badge">Meilleur modèle</span>
+          <span class="best-badge">Prédiction principale</span>
         </div>
         <div class="model-result" [ngClass]="getBannerClass()">
           <strong>{{ resultat?.random_forest?.label }}</strong>
@@ -104,20 +110,24 @@
         <div class="bar-row" *ngFor="let p of getProbasRF()">
           <span class="bar-label">{{ p.label }}</span>
           <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="p.pct" [style.background]="p.color"></div>
+            <div class="bar-fill"
+                 [style.width.%]="p.pct"
+                 [style.background]="p.color"></div>
           </div>
           <span class="bar-pct">{{ p.pct }}%</span>
         </div>
         <div class="model-stats">
-          <span>Accuracy : 49.4%</span>
-          <span>F1 Macro : 45.1%</span>
+          <span>Accuracy : 47.2%</span>
+          <span>F1 Macro : 40.6%</span>
         </div>
       </div>
 
+      <!-- CLMM R -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="trending-up-outline"></ion-icon>
-          Régression Ordinale Multiniveau
+          Régression Ordinale Multiniveau (CLMM)
+          <span class="best-badge neutral-badge">Référence scientifique</span>
         </div>
         <div class="model-result neutral">
           <strong>{{ resultat?.ordinal?.label }}</strong>
@@ -125,16 +135,19 @@
         <div class="bar-row" *ngFor="let p of getProbasOrd()">
           <span class="bar-label">{{ p.label }}</span>
           <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="p.pct" [style.background]="p.color"></div>
+            <div class="bar-fill"
+                 [style.width.%]="p.pct"
+                 [style.background]="p.color"></div>
           </div>
           <span class="bar-pct">{{ p.pct }}%</span>
         </div>
         <div class="model-stats">
-          <span>Accuracy : 49.1%</span>
-          <span>F1 Macro : 36.6%</span>
+          <span>logLik : −4031.8</span>
+          <span>F1 Macro : 36.8%</span>
         </div>
       </div>
 
+      <!-- Accord entre modèles -->
       <div class="accord" [ngClass]="getAccordClass()">
         <ion-icon [name]="getAccordIcon()"></ion-icon>
         <span>{{ getAccordMsg() }}</span>
@@ -142,8 +155,9 @@
 
     </ng-container>
 
-    <!-- ═══ RECOMMANDATIONS ═══ -->
+    <!-- ═══ ONGLET 3 : RECOMMANDATIONS ═══ -->
     <ng-container *ngIf="activeTab === 'recos'">
+
       <div class="card">
         <div class="card-title">
           <ion-icon name="clipboard-outline"></ion-icon>
@@ -159,6 +173,7 @@
           </div>
         </div>
       </div>
+
       <div class="btns">
         <button class="btn-primary" (click)="nouvelleAnalyse()">
           <ion-icon name="add-circle-outline"></ion-icon> Nouveau
@@ -167,10 +182,13 @@
           <ion-icon name="bar-chart-outline"></ion-icon> Graphiques
         </button>
       </div>
+
     </ng-container>
 
-    <!-- ═══ FACTEURS IA ═══ -->
+    <!-- ═══ ONGLET 4 : FACTEURS IA ═══ -->
     <ng-container *ngIf="activeTab === 'facteurs'">
+
+      <!-- Importance des variables RF -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="analytics-outline"></ion-icon>
@@ -179,19 +197,50 @@
         <div class="bar-row" *ngFor="let f of featuresIA">
           <span class="bar-label">{{ f.name }}</span>
           <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="f.pct" [style.background]="f.color"></div>
+            <div class="bar-fill"
+                 [style.width.%]="f.pct"
+                 [style.background]="f.color"></div>
           </div>
           <span class="bar-pct" [style.color]="f.color">{{ f.pct }}%</span>
         </div>
       </div>
 
+      <!-- Facteurs de risque CLMM -->
+      <div class="card">
+        <div class="card-title">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+          Facteurs de risque — CLMM (Odds Ratios)
+        </div>
+        <div class="facteur-row" *ngFor="let f of getFacteursRisque()">
+          <div class="facteur-info">
+            <span class="facteur-label">{{ f.label }}</span>
+            <span class="facteur-or"
+                  [ngClass]="f.type === 'risque' ? 'or-risque' : 'or-protecteur'">
+              OR = {{ f.or }}
+            </span>
+          </div>
+          <span class="facteur-badge"
+                [ngClass]="f.type === 'risque' ? 'badge-risque' : 'badge-protecteur'">
+            {{ f.type === 'risque' ? 'Risque' : 'Protecteur' }}
+          </span>
+        </div>
+        <p class="empty-msg"
+           *ngIf="getFacteursRisque().length === 0">
+          Aucun facteur significatif détecté pour ce patient.
+        </p>
+      </div>
+
+      <!-- Interprétation IA -->
       <div class="insight">
-        <div class="insight-icon"><ion-icon name="bulb-outline"></ion-icon></div>
+        <div class="insight-icon">
+          <ion-icon name="bulb-outline"></ion-icon>
+        </div>
         <div class="insight-text">
           <strong>Interprétation IA</strong>
           <p>{{ getInterpretation() }}</p>
         </div>
       </div>
+
     </ng-container>
 
   </div>

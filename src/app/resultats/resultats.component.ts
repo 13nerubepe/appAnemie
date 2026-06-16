@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
@@ -24,10 +24,12 @@ import {
   imports: [
     CommonModule,
     IonHeader, IonToolbar, IonContent,
-    IonBackButton, IonButtons, IonButton, IonIcon,
+    IonBackButton, IonButtons, IonIcon,
   ],
 })
 export class ResultatsComponent implements OnInit {
+
+  private router = inject(Router);
 
   activeTab = 'diagnostic';
   today     = new Date();
@@ -37,18 +39,23 @@ export class ResultatsComponent implements OnInit {
   severites = ['Pas anémie', 'Légère', 'Mod./Sév.'];
   recommandations: any[] = [];
 
+  // ── Variables correctes selon final_vars ─────────────
   featuresIA = [
-    { name: 'Âge enfant (mois)',    pct: 28, color: '#1a237e' },
-    { name: 'Z-score taille/âge',   pct: 18, color: '#283593' },
-    { name: 'Z-score poids/taille', pct: 15, color: '#3949ab' },
-    { name: 'Fièvre',               pct: 12, color: '#5c6bc0' },
-    { name: 'Anémie mère',          pct: 10, color: '#7986cb' },
-    { name: 'Indice richesse',       pct: 8,  color: '#9fa8da' },
-    { name: 'Âge mère',             pct: 5,  color: '#c5cae9' },
-    { name: 'BMI mère',             pct: 4,  color: '#bbdefb' },
+    { name: 'Âge enfant (mois)',     pct: 25, color: '#1a237e' },
+    { name: 'Âge mère',              pct: 21, color: '#283593' },
+    { name: 'Région',                pct: 13, color: '#3949ab' },
+    { name: 'Indice richesse',        pct: 8,  color: '#5c6bc0' },
+    { name: 'Niveau instruction',     pct: 6,  color: '#7986cb' },
+    { name: 'Anémie mère',           pct: 5,  color: '#9fa8da' },
+    { name: 'Sexe enfant',           pct: 5,  color: '#c5cae9' },
+    { name: 'Déparasitage',          pct: 4,  color: '#bbdefb' },
+    { name: 'Type allaitement',      pct: 4,  color: '#b3e5fc' },
+    { name: 'Fièvre',                pct: 3,  color: '#e1f5fe' },
+    { name: 'Milieu résidence',      pct: 3,  color: '#e8eaf6' },
+    { name: 'Diarrhée',              pct: 3,  color: '#ede7f6' },
   ];
 
-  constructor(private router: Router) {
+  constructor() {
     addIcons({
       hardwareChipOutline, pulseOutline, statsChartOutline,
       gitBranchOutline, trendingUpOutline, clipboardOutline,
@@ -85,35 +92,40 @@ export class ResultatsComponent implements OnInit {
     return 'pending';
   }
 
+  // ── Clés RF : classe_0, classe_1, classe_2 ───────────
   getConfiance(): number {
     const p = this.resultat?.random_forest?.probabilites;
     if (!p) return 0;
-    return Math.round(Math.max(p.pas_anemie, p.leger, p.modere_severe) * 100);
+    return Math.round(
+      Math.max(p.classe_0, p.classe_1, p.classe_2) * 100
+    );
   }
 
   getProbasRF() {
     const p = this.resultat?.random_forest?.probabilites;
     if (!p) return [];
     return [
-      { label: 'Pas anémie',     pct: Math.round(p.pas_anemie   * 100), color: '#2e7d32' },
-      { label: 'Légère',         pct: Math.round(p.leger         * 100), color: '#e65100' },
-      { label: 'Mod./Sévère',   pct: Math.round(p.modere_severe * 100), color: '#c62828' },
+      { label: 'Pas anémie',   pct: Math.round(p.classe_0 * 100), color: '#2e7d32' },
+      { label: 'Légère',       pct: Math.round(p.classe_1 * 100), color: '#e65100' },
+      { label: 'Mod./Sévère', pct: Math.round(p.classe_2 * 100), color: '#c62828' },
     ];
   }
 
+  // ── Clés CLMM : pas_anemie, leger, modere_severe ─────
   getProbasOrd() {
     const p = this.resultat?.ordinal?.probabilites;
     if (!p) return [];
     return [
-      { label: 'Pas anémie',     pct: Math.round(p.pas_anemie   * 100), color: '#2e7d32' },
-      { label: 'Légère',         pct: Math.round(p.leger         * 100), color: '#e65100' },
-      { label: 'Mod./Sévère',   pct: Math.round(p.modere_severe * 100), color: '#c62828' },
+      { label: 'Pas anémie',   pct: Math.round(p.pas_anemie    * 100), color: '#2e7d32' },
+      { label: 'Légère',       pct: Math.round(p.leger          * 100), color: '#e65100' },
+      { label: 'Mod./Sévère', pct: Math.round(p.modere_severe  * 100), color: '#c62828' },
     ];
   }
 
   getAccordClass(): string {
     return this.resultat?.random_forest?.prediction ===
-    this.resultat?.ordinal?.prediction ? 'accord-ok' : 'accord-diff';
+    this.resultat?.ordinal?.prediction
+      ? 'accord-ok' : 'accord-diff';
   }
 
   getAccordMsg(): string {
@@ -127,14 +139,37 @@ export class ResultatsComponent implements OnInit {
   getAccordIcon(): string {
     return this.resultat?.random_forest?.prediction ===
     this.resultat?.ordinal?.prediction
-      ? 'checkmark-circle-outline' : 'alert-circle-outline';
+      ? 'checkmark-circle-outline'
+      : 'alert-circle-outline';
   }
 
   getInterpretation(): string {
     const n = this.getNiveau();
-    if (n === 0) return 'Les facteurs analysés indiquent un statut non anémique. L\'âge et le bon statut nutritionnel contribuent positivement.';
-    if (n === 1) return 'Anémie légère détectée. L\'âge, le z-score taille/âge et le statut maternel sont les principaux facteurs contributifs.';
-    return 'Anémie modérée à sévère. La fièvre, le statut nutritionnel et l\'anémie maternelle sont des facteurs aggravants. Prise en charge immédiate recommandée.';
+    if (n === 0) return 'Les facteurs analysés indiquent un statut non anémique. L\'âge de l\'enfant et le bon statut nutritionnel maternel contribuent positivement.';
+    if (n === 1) return 'Anémie légère détectée. L\'âge de l\'enfant, le statut anémique maternel et l\'indice de richesse sont les principaux facteurs contributifs.';
+    return 'Anémie modérée à sévère. La fièvre, l\'anémie maternelle et les inégalités socio-économiques sont des facteurs aggravants. Prise en charge immédiate recommandée.';
+  }
+
+  // ── Odds Ratios CLMM pour affichage ──────────────────
+  getFacteursRisque() {
+    const n = this.getNiveau();
+    const patient = this.patient;
+    const facteurs = [];
+
+    if (patient.anemie_mere > 0)
+      facteurs.push({ label: 'Anémie maternelle', or: 1.50, type: 'risque' });
+    if (patient.fievre === 1)
+      facteurs.push({ label: 'Fièvre', or: 1.31, type: 'risque' });
+    if (patient.type_allaitement > 0)
+      facteurs.push({ label: 'Type allaitement', or: 1.10, type: 'risque' });
+    if (patient.deparasitage === 1)
+      facteurs.push({ label: 'Déparasitage', or: 0.90, type: 'protecteur' });
+    if (patient.niveau_instruction > 1)
+      facteurs.push({ label: 'Niveau instruction', or: 0.88, type: 'protecteur' });
+    if (patient.indice_richesse > 3)
+      facteurs.push({ label: 'Indice richesse', or: 0.84, type: 'protecteur' });
+
+    return facteurs;
   }
 
   genererRecos() {

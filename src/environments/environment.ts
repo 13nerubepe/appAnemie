@@ -1,7 +1,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000'
+  // apiUrl: 'http://localhost:8000'
+
+  apiUrl: 'https://modele-regression-ordinal-multiniveau-2.onrender.com'
 
   // API_GATEWAY_URL: "http://localhost:7171",
   // API_AUTHSERVER_URL: "http://localhost:7000",

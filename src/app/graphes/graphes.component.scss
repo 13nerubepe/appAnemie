@@ -9,3 +9,55 @@ ion-content { --background: $bg; }
     strong   { font-size: 13px; color: $primary; }
   }
 }
+
+
+// add our le graphe
+
+.soft-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a237e;
+}
+
+.legend {
+  margin-top: 10px;
+}
+
+.leg-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.bar-track {
+  width: 100%;
+  background: #eee;
+  height: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #1a237e;
+}
