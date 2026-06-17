@@ -30,34 +30,29 @@ import { AnemieService } from '../service/anemie-service';
 })
 export class PatientComponent {
 
-  loading = false;
+  loading   = false;
+  errorMsg  = '';
 
   patient = {
-    // Infos affichage (non envoyées à l'API)
     prenom: '',
     nom:    '',
 
-    // Enfant
     sexe_enfant:        null as number | null,
     age_enfant_mois:    null as number | null,
 
-    // Clinique enfant
     diarrhee:           null as number | null,
     fievre:             null as number | null,
     deparasitage:       null as number | null,
     type_allaitement:   null as number | null,
 
-    // Mère
     age_mere:           null as number | null,
     anemie_mere:        null as number | null,
     niveau_instruction: null as number | null,
 
-    // Ménage
     indice_richesse:    null as number | null,
     milieu_residence:   null as number | null,
     region:             null as number | null,
 
-    // Praticien (optionnel)
     structure_sante: '',
     notes:           '',
   };
@@ -73,14 +68,12 @@ export class PatientComponent {
     });
   }
 
-  // ── Setters radio buttons ─────────────────────────────
   setSexe(v: number)         { this.patient.sexe_enfant      = v; }
   setDiarrhee(v: number)     { this.patient.diarrhee         = v; }
   setFievre(v: number)       { this.patient.fievre           = v; }
   setDeparasitage(v: number) { this.patient.deparasitage     = v; }
   setMilieu(v: number)       { this.patient.milieu_residence = v; }
 
-  // ── Validation : 12 variables obligatoires ────────────
   valide(): boolean {
     const p = this.patient;
     return (
@@ -99,10 +92,10 @@ export class PatientComponent {
     );
   }
 
-  // ── Soumission → API ──────────────────────────────────
   onSubmit() {
     if (!this.valide() || this.loading) return;
-    this.loading = true;
+    this.loading  = true;
+    this.errorMsg = '';
 
     const payload = {
       sexe_enfant:        this.patient.sexe_enfant!,
@@ -126,16 +119,22 @@ export class PatientComponent {
       next: (resultat) => {
         this.loading = false;
         this.router.navigate(['/resultats'], {
-          state: { patient: this.patient, resultat }
+          state: { patient: this.patient, resultat, simule: false }
         });
       },
-      error: () => {
-        this.loading = false;
-        const resultat = this.anemieService.simuler();
-        this.router.navigate(['/resultats'], {
-          state: { patient: this.patient, resultat }
-        });
+      error: (err) => {
+        this.loading  = false;
+        this.errorMsg = 'Impossible de contacter le serveur. Vérifiez votre connexion.';
+        console.error('Erreur API /predict', err);
       }
+    });
+  }
+
+  // ── Mode démo explicite, choisi par l'utilisateur ─────
+  lancerSimulation() {
+    const resultat = this.anemieService.simuler();
+    this.router.navigate(['/resultats'], {
+      state: { patient: this.patient, resultat, simule: true }
     });
   }
 }

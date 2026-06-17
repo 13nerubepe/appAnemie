@@ -29,6 +29,12 @@
 <ion-content [fullscreen]="true">
   <div class="page-content">
 
+    <!-- Bandeau mode démo, visible sur tous les onglets -->
+    <div class="demo-banner" *ngIf="simule">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>Mode démonstration — ces résultats sont simulés, pas une vraie prédiction</span>
+    </div>
+
     <!-- ═══ ONGLET 1 : DIAGNOSTIC ═══ -->
     <ng-container *ngIf="activeTab === 'diagnostic'">
 
@@ -97,7 +103,6 @@
     <!-- ═══ ONGLET 2 : MODÈLES ═══ -->
     <ng-container *ngIf="activeTab === 'modeles'">
 
-      <!-- Random Forest -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="git-branch-outline"></ion-icon>
@@ -122,7 +127,6 @@
         </div>
       </div>
 
-      <!-- CLMM R -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="trending-up-outline"></ion-icon>
@@ -147,7 +151,6 @@
         </div>
       </div>
 
-      <!-- Accord entre modèles -->
       <div class="accord" [ngClass]="getAccordClass()">
         <ion-icon [name]="getAccordIcon()"></ion-icon>
         <span>{{ getAccordMsg() }}</span>
@@ -188,7 +191,6 @@
     <!-- ═══ ONGLET 4 : FACTEURS IA ═══ -->
     <ng-container *ngIf="activeTab === 'facteurs'">
 
-      <!-- Importance des variables RF -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="analytics-outline"></ion-icon>
@@ -205,7 +207,6 @@
         </div>
       </div>
 
-      <!-- Facteurs de risque CLMM -->
       <div class="card">
         <div class="card-title">
           <ion-icon name="stats-chart-outline"></ion-icon>
@@ -230,7 +231,6 @@
         </p>
       </div>
 
-      <!-- Interprétation IA -->
       <div class="insight">
         <div class="insight-icon">
           <ion-icon name="bulb-outline"></ion-icon>

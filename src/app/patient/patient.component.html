@@ -266,11 +266,23 @@
         </div>
       </div>
 
+      <!-- Message d'erreur si l'API ne répond pas -->
+      <p class="status-text danger" *ngIf="errorMsg">
+        {{ errorMsg }}
+      </p>
+
       <button class="submit-btn" type="submit"
               [disabled]="!valide() || loading">
         <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
         <ion-icon *ngIf="!loading" name="analytics-outline"></ion-icon>
         {{ loading ? 'Prédiction en cours...' : 'Lancer la prédiction IA' }}
+      </button>
+
+      <!-- Bouton mode démo, visible seulement si l'API a échoué -->
+      <button class="submit-btn secondary" type="button"
+              *ngIf="errorMsg" (click)="lancerSimulation()">
+        <ion-icon name="analytics-outline"></ion-icon>
+        Continuer en mode démonstration
       </button>
 
     </form>

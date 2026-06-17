@@ -262,6 +262,12 @@ $bg:             #f4f6fb;
   gap: 8px; margin: 8px 0 32px; cursor: pointer;
   ion-icon { font-size: 20px; }
   &:disabled { opacity: 0.55; }
+
+  &.secondary {
+    background: $primary-pale;
+    color: $primary;
+    margin-top: 0;
+  }
 }
 
 // ── Formulaire ─────────────────────────────────────────
@@ -379,6 +385,128 @@ $bg:             #f4f6fb;
   text-align: center; padding: 60px 20px;
   ion-icon { font-size: 52px; color: #c5cae9; display: block; margin-bottom: 12px; }
   p { color: $text-light; font-size: 14px; }
+}
+
+// ── Accord entre modèles ───────────────────────────────
+.accord {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+
+  ion-icon { font-size: 20px; flex-shrink: 0; }
+
+  &.accord-ok   { background: $success-light; color: $success; }
+  &.accord-diff { background: $warning-light; color: $warning; }
+}
+
+// ── Badge modèle (meilleur / référence) ────────────────
+.best-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: $success-light;
+  color: $success;
+  margin-left: 8px;
+
+  &.neutral-badge {
+    background: #e8eaf6;
+    color: #3949ab;
+  }
+}
+
+// ── Résultat par modèle ─────────────────────────────────
+.model-result {
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  text-align: center;
+
+  strong { font-size: 15px; }
+
+  &.success { background: $success-light; color: $success; }
+  &.warning { background: $warning-light; color: $warning; }
+  &.danger  { background: $danger-light;  color: $danger;  }
+  &.neutral { background: #e8eaf6; color: #3949ab; }
+}
+
+.model-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 11px;
+  color: $text-light;
+}
+
+// ── Facteurs de risque CLMM ────────────────────────────
+.facteur-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-child { border-bottom: none; }
+
+  .facteur-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .facteur-label {
+    font-size: 13px;
+    color: $text-dark;
+    font-weight: 500;
+  }
+
+  .facteur-or {
+    font-size: 12px;
+    font-weight: 700;
+    &.or-risque     { color: $danger; }
+    &.or-protecteur { color: $success; }
+  }
+
+  .facteur-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    &.badge-risque     { background: $danger-light;  color: $danger;  }
+    &.badge-protecteur { background: $success-light; color: $success; }
+  }
+}
+
+.empty-msg {
+  font-size: 12px;
+  color: $text-light;
+  text-align: center;
+  padding: 16px 0;
+}
+
+// ── Bandeau mode démo ──────────────────────────────────
+.demo-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $warning-light;
+  color: $warning;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+
+  ion-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
 }
 
 // ── Page bg ────────────────────────────────────────────

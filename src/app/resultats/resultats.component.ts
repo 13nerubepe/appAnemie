@@ -24,7 +24,7 @@ import {
   imports: [
     CommonModule,
     IonHeader, IonToolbar, IonContent,
-    IonBackButton, IonButtons, IonIcon,
+    IonBackButton, IonButtons, IonButton, IonIcon,
   ],
 })
 export class ResultatsComponent implements OnInit {
@@ -35,11 +35,11 @@ export class ResultatsComponent implements OnInit {
   today     = new Date();
   patient:  any = {};
   resultat: any = {};
+  simule    = false;
 
   severites = ['Pas anémie', 'Légère', 'Mod./Sév.'];
   recommandations: any[] = [];
 
-  // ── Variables correctes selon final_vars ─────────────
   featuresIA = [
     { name: 'Âge enfant (mois)',     pct: 25, color: '#1a237e' },
     { name: 'Âge mère',              pct: 21, color: '#283593' },
@@ -69,8 +69,9 @@ export class ResultatsComponent implements OnInit {
 
   ngOnInit() {
     const state = history.state;
-    if (state?.patient) this.patient  = state.patient;
+    if (state?.patient)  this.patient  = state.patient;
     if (state?.resultat) this.resultat = state.resultat;
+    if (state?.simule)   this.simule   = state.simule;
     this.genererRecos();
   }
 
@@ -92,7 +93,6 @@ export class ResultatsComponent implements OnInit {
     return 'pending';
   }
 
-  // ── Clés RF : classe_0, classe_1, classe_2 ───────────
   getConfiance(): number {
     const p = this.resultat?.random_forest?.probabilites;
     if (!p) return 0;
@@ -111,7 +111,6 @@ export class ResultatsComponent implements OnInit {
     ];
   }
 
-  // ── Clés CLMM : pas_anemie, leger, modere_severe ─────
   getProbasOrd() {
     const p = this.resultat?.ordinal?.probabilites;
     if (!p) return [];
@@ -150,9 +149,7 @@ export class ResultatsComponent implements OnInit {
     return 'Anémie modérée à sévère. La fièvre, l\'anémie maternelle et les inégalités socio-économiques sont des facteurs aggravants. Prise en charge immédiate recommandée.';
   }
 
-  // ── Odds Ratios CLMM pour affichage ──────────────────
   getFacteursRisque() {
-    const n = this.getNiveau();
     const patient = this.patient;
     const facteurs = [];
 
