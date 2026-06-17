@@ -1,82 +1,85 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
 import {
-  analyticsOutline,
+  analyticsOutline, barChartOutline,
   gitBranchOutline,
   gridOutline,
-  podiumOutline,
+  podiumOutline, statsChartOutline,
   trendingUpOutline
 } from 'ionicons/icons';
+import {Chart} from "chart.js";
+import {AnemieService} from "../service/anemie-service";
 
 @Component({
   selector: 'app-resul',
-  templateUrl: './resul.component.html',
-  styleUrls: ['./resul.component.scss'],
+  templateUrl: './modele.component.html',
+  styleUrls: ['./modele.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     IonicModule
   ]
 })
-export class RESULComponent {
+export class ModeleComponent implements AfterViewInit {
+
+  private api = inject(AnemieService);
+
+  features: any[] = [];
+
+  private barChart?: Chart;
 
   constructor() {
-    addIcons({
-      analyticsOutline,
-      gridOutline,
-      podiumOutline,
-      trendingUpOutline,
-      gitBranchOutline
+    addIcons({ podiumOutline, barChartOutline, statsChartOutline });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loadData();
+    }, 300);
+  }
+
+  private getCanvas(id: string): HTMLCanvasElement | null {
+    return document.getElementById(id) as HTMLCanvasElement;
+  }
+
+  private loadData(): void {
+    // ── Importance des variables (Random Forest, fixe) ──
+    this.api.getStatsFeatures().subscribe({
+      next: (data: any) => {
+        this.features = data;
+        this.buildBar();
+      },
+      error: (err: any) => console.error('Erreur stats features', err)
     });
   }
 
-  // =========================
-  // MÉTRIQUES MODELES
-  // =========================
-  metriques: Array<{
-    val: string;
-    label: string;
-    color: string;
-  }> = [
-    { val: '49.4%', label: 'Accuracy RF',   color: '#1a237e' },
-    { val: '45.1%', label: 'F1 Macro RF',   color: '#2e7d32' },
-    { val: '49.1%', label: 'Accuracy Ord.', color: '#e65100' },
-    { val: '36.6%', label: 'F1 Macro Ord.', color: '#c62828' },
-  ];
-
-  // =========================
-  // IMPORTANCE FEATURES
-  // =========================
-  features: Array<{
-    name: string;
-    pct: number;
-    color: string;
-  }> = [
-    { name: 'Âge enfant (mois)',    pct: 28, color: '#1a237e' },
-    { name: 'Z-score taille/âge',   pct: 18, color: '#283593' },
-    { name: 'Z-score poids/taille', pct: 15, color: '#3949ab' },
-    { name: 'Fièvre',               pct: 12, color: '#5c6bc0' },
-    { name: 'Anémie mère',          pct: 10, color: '#7986cb' },
-    { name: 'Indice richesse',       pct: 8,  color: '#9fa8da' },
-    { name: 'Âge mère',             pct: 5,  color: '#c5cae9' },
-    { name: 'BMI mère',             pct: 4,  color: '#e8eaf6' },
-  ];
-
-  // =========================
-  // CLASSES ANÉMIE
-  // =========================
-  classes: Array<{
-    label: string;
-    n: number;
-    pct: number;
-    color: string;
-  }> = [
-    { label: 'Pas anémie',   n: 1695, pct: 42.5, color: '#2e7d32' },
-    { label: 'Légère',       n: 1018, pct: 25.5, color: '#e65100' },
-    { label: 'Mod./Sévère',  n: 1274, pct: 32.0, color: '#c62828' },
-  ];
+  private buildBar(): void {
+    const canvas = this.getCanvas('barChartEtude');
+    if (!canvas) return;
+    this.barChart?.destroy();
+    this.barChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: this.features.map(f => f.name),
+        datasets: [{
+          data: this.features.map(f => f.pct),
+          backgroundColor: '#3949ab',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  }
 
 }

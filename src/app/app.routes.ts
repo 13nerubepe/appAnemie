@@ -48,8 +48,8 @@ export const routes: Routes = [
 {
   path: 'modele',
     loadComponent: () =>
-  import('./modele/resul.component')
-    .then(m => m.RESULComponent),
+  import('./modele/modele.component')
+    .then(m => m.ModeleComponent),
 },
 {
   path: '**',

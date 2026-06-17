@@ -214,4 +214,8 @@ export class AnemieService {
     return this.http.get(`${this.api}/stats/anemie-sexe`);
   }
 
+  getStatsAge(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api}/stats/age`);
+  }
+
 }
