@@ -54,7 +54,9 @@ export class PatientComponent {
     region:             null as number | null,
 
     structure_sante: '',
-    notes:           '',
+    notes:'',
+    nom_praticien:'',
+    prenom_praticien:'',
   };
 
   constructor(

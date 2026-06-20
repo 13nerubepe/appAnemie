@@ -52,3 +52,91 @@ ion-content { --background: $bg; }
     }
   }
 }
+
+
+// ---- Metric cards ----
+  .metrics-grid {
+    padding: 0;
+    ion-col {
+      padding: 6px;
+    }
+  }
+
+.metric-card {
+  border-radius: 16px;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  ion-card-content {
+    text-align: center;
+    padding: 18px 8px;
+  }
+
+  .metric-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+  }
+
+  .metric-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 4px;
+  }
+
+  .metric-blue   { color: #1a237e; }
+  .metric-green  { color: #2e7d32; }
+  .metric-orange { color: #e07b00; }
+  .metric-red    { color: #c62828; }
+}
+
+// ---- Section cards (Distribution / Importance) ----
+.section-card {
+  border-radius: 16px;
+  margin-top: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #c62828;
+  margin: 0 0 12px;
+
+  ion-icon {
+    font-size: 1.2rem;
+  }
+}
+
+// Distribution list
+.class-list {
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --background: transparent;
+
+    .dot {
+      font-size: 12px;
+      margin-right: 4px;
+    }
+
+    ion-label {
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .class-count {
+      color: #9ca3af;
+      margin-right: 14px;
+      font-weight: 500;
+    }
+
+    .class-pct {
+      font-weight: 700;
+      min-width: 56px;
+      text-align: right;
+    }
+  }
+}

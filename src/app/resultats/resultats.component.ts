@@ -31,6 +31,8 @@ export class ResultatsComponent implements OnInit {
 
   private router = inject(Router);
 
+  // gestion erreur (lié à ton *ngIf)
+  erreurDonnees: boolean = false;
   activeTab = 'diagnostic';
   today     = new Date();
   patient:  any = {};
@@ -192,6 +194,10 @@ export class ResultatsComponent implements OnInit {
         { titre: 'Suivi rapproché',      desc: 'Contrôle dans 2 semaines après traitement.',        icon: 'calendar-outline',      cls: 'red' },
       ];
     }
+  }
+
+  retourAccueil(): void {
+    this.router.navigate(['/home']);
   }
 
   nouvelleAnalyse() { this.router.navigate(['/patient']);    }
