@@ -42,7 +42,7 @@ export class AuthService {
   //   });
   // }
 
-  // public isLoggedIn(): Observable<Boolean> {
+  // public.old isLoggedIn(): Observable<Boolean> {
   //   let isLoggedIn = this.cookieService.check('accessToken');
   //   if (isLoggedIn) {
   //     this.setLoggedIn(true);
@@ -56,24 +56,24 @@ export class AuthService {
     // this.loggedIn.next(newValue);
   }
 
-  // public getUserInfos(): Observable<AppUser> {
+  // public.old getUserInfos(): Observable<AppUser> {
   //   const url = AppConstants.API_GATEWAY_URL + '/userinfo';
   //   return this.http.get<any>(url);
   // }
 
-  // public getUserInfos2(): Observable<AppUser> {
+  // public.old getUserInfos2(): Observable<AppUser> {
   //   const url = AppConstants.API_GATEWAY_URL + '/userinfo';
   //   return this.http.get<AppUser>(url).pipe(tap((user) => this.userSubject.next(user)));
   // }
   //
-  // public get user$(): Observable<AppUser | null> {
+  // public.old get user$(): Observable<AppUser | null> {
   //   return this.userSubject.asObservable();
   // }
   //
-  // public getCurrentUserValue(): AppUser | null {
+  // public.old getCurrentUserValue(): AppUser | null {
   //   return this.userSubject.value;
   // }
-  // public getUserGroups(userId: string | undefined): Observable<AppGroup[]> {
+  // public.old getUserGroups(userId: string | undefined): Observable<AppGroup[]> {
   //   return this.http.get<AppGroup[]>(`${AppConstants.API_GATEWAY_URL}/administration/groupe/user/${userId}`);
   // }
 
