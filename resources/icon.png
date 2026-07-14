@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 680 680">
+  <title>Icône Anemia AI — Hémoglobine</title>
+  <desc>Icône rouge et blanc style app avec molécule d'hémoglobine</desc>
+
+  <rect x="90" y="90" width="500" height="500" rx="110" fill="#B71C1C"/>
+  <rect x="100" y="100" width="480" height="480" rx="105" fill="#C62828"/>
+
+  <!-- Liaisons -->
+  <line x1="340" y1="210" x2="240" y2="290" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="340" y1="210" x2="440" y2="290" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="240" y1="290" x2="200" y2="400" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="240" y1="290" x2="340" y2="370" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="440" y1="290" x2="480" y2="400" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="440" y1="290" x2="340" y2="370" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="200" y1="400" x2="340" y2="460" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <line x1="480" y1="400" x2="340" y2="460" stroke="white" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Atomes extérieurs -->
+  <circle cx="340" cy="210" r="32" fill="white"/>
+  <circle cx="240" cy="290" r="26" fill="white" opacity="0.9"/>
+  <circle cx="440" cy="290" r="26" fill="white" opacity="0.9"/>
+  <circle cx="200" cy="400" r="26" fill="white" opacity="0.9"/>
+  <circle cx="480" cy="400" r="26" fill="white" opacity="0.9"/>
+  <circle cx="340" cy="460" r="26" fill="white" opacity="0.9"/>
+
+  <!-- Atome central Fe (fer) -->
+  <circle cx="340" cy="370" r="42" fill="#FF5252"/>
+  <circle cx="340" cy="370" r="36" fill="#D32F2F"/>
+  <text x="340" y="377" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="white">Fe</text>
+
+  <!-- Labels atomes -->
+  <text x="340" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#C62828">N</text>
+  <text x="240" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#C62828">C</text>
+  <text x="440" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#C62828">C</text>
+  <text x="200" y="408" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#C62828">N</text>
+  <text x="480" y="408" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#C62828">N</text>
+  <text x="340" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#C62828">C</text>
+
+  <!-- Nom app -->
+  <text x="340" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="white">Anemia AI</text>
+</svg>
