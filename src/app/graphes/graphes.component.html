@@ -34,24 +34,36 @@
   <div class="page-content">
 
     <!-- TOTAL CONSULTATIONS -->
-    <div class="score-banner">
+    <!-- TOTAL CONSULTATIONS -->
+    <div class="consultation-card">
 
-      <div class="bub b1"></div>
-      <div class="bub b2"></div>
+      <div class="consultation-icon">
+        <ion-icon name="people-circle-outline"></ion-icon>
+      </div>
 
-      <p class="sb-sub">
-        Nombre total
-      </p>
 
-      <h2 class="sb-title">
-        {{ totalConsultations }}
-      </h2>
+      <div class="consultation-content">
 
-      <p class="sb-desc">
-        Consultations enregistrées
-      </p>
+        <p class="consultation-label">
+          Total consultations
+        </p>
+
+
+        <h2 class="consultation-number">
+          {{ totalConsultations }}
+        </h2>
+
+
+        <p class="consultation-description">
+          Enfants analysés dans la base de données
+        </p>
+
+      </div>
+
 
     </div>
+
+
 
     <!-- REPARTITION ANEMIE -->
     <div class="card soft-card">

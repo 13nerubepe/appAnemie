@@ -1,3 +1,4 @@
+
 @import '../shared.scss';
 ion-content { --background: $bg; }
 
@@ -87,6 +88,7 @@ ion-content { --background: $bg; }
   .metric-green  { color: #2e7d32; }
   .metric-orange { color: #e07b00; }
   .metric-red    { color: #c62828; }
+  .metric-purple { color: #6a1b9a; }
 }
 
 // ---- Section cards (Distribution / Importance) ----
@@ -139,4 +141,284 @@ ion-content { --background: $bg; }
       text-align: right;
     }
   }
+}
+
+
+//DONUT
+
+.donut-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 25px;
+}
+
+
+.donut-chart {
+  width: 180px;
+  height: 180px;
+}
+
+
+.donut-center-value {
+  font-size: 28px;
+  font-weight: 700;
+  fill: #222;
+}
+
+
+.donut-center-label {
+  font-size: 14px;
+  fill: #777;
+}
+
+
+.donut-legend {
+  //margin: 0;
+  width: 230px;
+  list-style: none;
+  padding: 0;
+}
+
+
+.donut-legend li {
+  display: flex;
+  align-items: center;
+  //gap: 10px;
+  //margin-bottom: 12px;
+
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 12px 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  transition: 0.3s;
+}
+
+
+.dot {
+  font-size: 14px;
+}
+
+
+.legend-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+
+.legend-count {
+  font-weight: 600;
+}
+
+
+.legend-pct {
+  font-weight: 700;
+}
+
+.donut-legend li:hover {
+  transform: translateX(5px);
+}
+
+
+/* petit carré couleur */
+.legend-color {
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  margin-right: 12px;
+
+}
+
+
+/* texte */
+.legend-info {
+
+  display:flex;
+  flex-direction:column;
+  flex:1;
+
+}
+
+
+.legend-name {
+
+  font-size:15px;
+  font-weight:600;
+  color:#1e293b;
+
+}
+
+
+.legend-count {
+
+  font-size:13px;
+  color:#64748b;
+
+}
+
+
+/* pourcentage */
+
+.legend-percent {
+
+  font-size:18px;
+  font-weight:700;
+
+}
+
+
+.soft-card {
+
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+
+}
+
+
+.card-title {
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  font-size:18px;
+  font-weight:700;
+
+  color:#1e293b;
+
+  margin-bottom:20px;
+
+}
+
+
+/* Conteneur du graphique */
+
+.chart-container {
+
+  position: relative;
+
+  width:100%;
+
+  height:420px;
+
+}
+
+
+
+/* Tablette */
+
+@media(max-width:900px){
+
+  .chart-container{
+
+    height:350px;
+
+  }
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+  .soft-card{
+
+    padding:15px;
+
+  }
+
+
+  .card-title{
+
+    font-size:16px;
+
+  }
+
+
+  .chart-container{
+
+    height:300px;
+
+  }
+
+//  sexe
+
+
+  .sex-container {
+
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+
+  }
+
+
+  .sex-item {
+
+    display:flex;
+    align-items:center;
+
+    background:#f8fafc;
+
+    padding:14px;
+
+    border-radius:15px;
+
+  }
+
+
+  .sex-dot {
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    margin-right:12px;
+
+  }
+
+
+  .sex-info {
+
+    display:flex;
+    flex-direction:column;
+
+    flex:1;
+
+  }
+
+
+  .sex-name {
+
+    font-size:16px;
+    font-weight:600;
+    color:#1e293b;
+
+  }
+
+
+  .sex-count {
+
+    font-size:13px;
+    color:#64748b;
+
+  }
+
+
+  .sex-pct {
+
+    font-size:20px;
+    font-weight:700;
+
+  }
+
 }

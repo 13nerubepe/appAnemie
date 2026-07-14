@@ -61,3 +61,125 @@ ion-content { --background: $bg; }
   height: 100%;
   background: #1a237e;
 }
+
+
+//card
+
+
+.consultation-card {
+
+  position:relative;
+
+  display:flex;
+  align-items:center;
+
+  gap:20px;
+
+  padding:25px;
+
+  border-radius:24px;
+
+  background:linear-gradient(
+      135deg,
+      #dc2626,
+      #991b1b
+  );
+
+  color:white;
+
+  overflow:hidden;
+  margin: 20px;
+
+  box-shadow:
+    0 10px 25px rgba(220,38,38,.25);
+
+}
+
+
+.consultation-icon {
+
+  width:65px;
+  height:65px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.2);
+
+  font-size:35px;
+
+}
+
+
+.consultation-label {
+
+  margin:0;
+
+  font-size:15px;
+
+  opacity:.9;
+
+}
+
+
+.consultation-number {
+
+  margin:5px 0;
+
+  font-size:42px;
+
+  font-weight:800;
+
+}
+
+
+.consultation-description {
+
+  margin:0;
+
+  font-size:14px;
+
+  opacity:.9;
+
+}
+
+
+/* bulles décoratives */
+
+.consultation-card::before,
+.consultation-card::after {
+
+  content:"";
+
+  position:absolute;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.12);
+
+}
+
+
+.consultation-card::before {
+
+  width:160px;
+  height:160px;
+
+  right:-50px;
+  top:-60px;
+
+}
+
+
+.consultation-card::after {
+
+  width:100px;
+  height:100px;
+
+  left:-30px;
+  bottom:-30px;
+
+}

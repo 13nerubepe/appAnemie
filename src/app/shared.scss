@@ -336,7 +336,7 @@ $bg:             #f4f6fb;
 }
 
 .chips {
-  display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto;
+  display: flex; justify-content:center; gap: 8px; margin-bottom: 14px; overflow-x: auto;
   .chip {
     padding: 6px 14px; border-radius: 20px;
     font-size: 12px; font-weight: 500;

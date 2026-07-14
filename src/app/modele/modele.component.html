@@ -13,7 +13,7 @@
       <div>
         <div class="toolbar-title">Étude des variables</div>
         <div class="toolbar-sub">
-          Importance des variables - Random Forest
+          Importance des variables - XGBOOST
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
       <div class="bub b2"></div>
 
       <p class="sb-sub">Modèle utilisé</p>
-      <h2 class="sb-title">Random Forest</h2>
+      <h2 class="sb-title">XGBOOST</h2>
 
       <p class="sb-desc">
         Classement des variables selon leur importance dans la prédiction de l'anémie.
@@ -40,50 +40,256 @@
       <p class="sb-desc">
         3987 Observations. EDS Cameroun 2018. 12 variables
       </p>
-
     </div>
 
     <!-- Métriques -->
+    <!-- MÉTRIQUES XGBOOST -->
     <ion-grid class="metrics-grid">
+
       <ion-row>
-        <ion-col size="6">
+
+        <!-- Accuracy -->
+        <ion-col size="6" size-md="3">
           <ion-card class="metric-card">
             <ion-card-content>
-              <div class="metric-value metric-blue">49.4%</div>
-              <div class="metric-label">Accuracy RF</div>
+
+              <div class="metric-icon blue">
+                <ion-icon name="speedometer-outline"></ion-icon>
+              </div>
+
+              <div class="metric-value metric-blue">
+                45.7%
+              </div>
+
+              <div class="metric-label">
+                Accuracy
+              </div>
+
+              <div class="metric-model">
+                XGBoost
+              </div>
+
             </ion-card-content>
           </ion-card>
         </ion-col>
-        <ion-col size="6">
+
+
+
+        <!-- F1 Macro -->
+        <ion-col size="6" size-md="3">
           <ion-card class="metric-card">
             <ion-card-content>
-              <div class="metric-value metric-green">45.1%</div>
-              <div class="metric-label">F1 Macro RF</div>
+
+              <div class="metric-icon metric-green">
+                <ion-icon name="analytics-outline"></ion-icon>
+              </div>
+
+              <div class="metric-value metric-green">
+                43.5%
+              </div>
+
+              <div class="metric-label">
+                F1 Macro
+              </div>
+
+              <div class="metric-model">
+                XGBoost
+              </div>
+
             </ion-card-content>
           </ion-card>
         </ion-col>
+
+
+
+        <!-- ROC-AUC -->
+        <ion-col size="6" size-md="3">
+          <ion-card class="metric-card">
+            <ion-card-content>
+
+              <div class="metric-icon metric-orange ">
+                <ion-icon name="trending-up-outline"></ion-icon>
+              </div>
+
+              <div class="metric-value metric-orange">
+                64.2%
+              </div>
+
+              <div class="metric-label">
+                ROC-AUC
+              </div>
+
+              <div class="metric-model">
+                XGBoost
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+
+
+        <!-- Nombre classes -->
+        <ion-col size="6" size-md="3">
+          <ion-card class="metric-card">
+            <ion-card-content>
+
+              <div class="metric-icon red">
+                <ion-icon name="grid-outline"></ion-icon>
+              </div>
+
+              <div class="metric-value metric-purple">
+                3
+              </div>
+
+              <div class="metric-label">
+                Classes
+              </div>
+
+              <div class="metric-model">
+                Classification anémie
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+
       </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="metric-card">
-            <ion-card-content>
-              <div class="metric-value metric-orange">49.1%</div>
-              <div class="metric-label">Accuracy Ord.</div>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6">
-          <ion-card class="metric-card">
-            <ion-card-content>
-              <div class="metric-value metric-red">36.6%</div>
-              <div class="metric-label">F1 Macro Ord.</div>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+
     </ion-grid>
 
-<!--    &lt;!&ndash; Distribution des classes &ndash;&gt;-->
+
+    <!-- Distribution des sexes -->
+    <ion-card class="section-card">
+
+      <ion-card-content>
+
+        <h3 class="section-title">
+          <ion-icon name="people-outline"></ion-icon>
+          Distribution des sexes
+        </h3>
+
+
+        <div class="sex-container">
+
+          <div
+            class="sex-item"
+            *ngFor="let s of sexDistribution">
+
+
+        <span
+          class="sex-dot"
+          [style.background]="s.color">
+        </span>
+
+
+            <div class="sex-info">
+
+          <span class="sex-name">
+            {{ s.name }}
+          </span>
+
+              <span class="sex-count">
+            {{ s.count }} enfants
+          </span>
+
+            </div>
+
+
+            <span
+              class="sex-pct"
+              [style.color]="s.color">
+          {{ s.pct }}%
+        </span>
+
+
+          </div>
+
+        </div>
+
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <!-- Distribution des classes -->
+    <ion-card class="section-card">
+      <ion-card-content>
+
+        <h3 class="section-title">
+          <ion-icon name="grid-outline"></ion-icon>
+          Distribution des classes
+        </h3>
+
+        <div class="donut-wrapper">
+
+          <!-- Donut SVG -->
+          <svg viewBox="0 0 200 200" class="donut-chart">
+
+            <circle
+              *ngFor="let seg of donutSegments"
+              cx="100"
+              cy="100"
+              r="70"
+              fill="none"
+              [attr.stroke]="seg.color"
+              stroke-width="20"
+              [attr.stroke-dasharray]="seg.dash"
+              [attr.stroke-dashoffset]="seg.offset"
+              transform="rotate(-90 100 100)"
+            ></circle>
+
+
+            <!-- Texte centre -->
+            <text
+              x="100"
+              y="95"
+              text-anchor="middle"
+              class="donut-center-value">
+              {{ totalObservations }}
+            </text>
+
+            <text
+              x="100"
+              y="120"
+              text-anchor="middle"
+              class="donut-center-label">
+              observations
+            </text>
+
+          </svg>
+
+
+          <!-- Légende -->
+          <ul class="donut-legend">
+
+            <li *ngFor="let c of classDistribution">
+
+              <div class="legend-color" [style.background]="c.color"></div>
+
+              <div class="legend-info">
+      <span class="legend-name">
+        {{ c.name }}
+      </span>
+
+                <span class="legend-count">
+        {{ c.count | number }} enfants
+      </span>
+              </div>
+
+              <div class="legend-percent" [style.color]="c.color">
+                {{ c.pct }}%
+              </div>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </ion-card-content>
+    </ion-card>
 <!--    <ion-card class="section-card">-->
 <!--      <ion-card-content>-->
 <!--        <h3 class="section-title">-->
@@ -91,56 +297,37 @@
 <!--          Distribution des classes-->
 <!--        </h3>-->
 
-<!--        <ion-list lines="none" class="class-list">-->
-<!--          <ion-item *ngFor="let c of classDistribution">-->
-<!--            <ion-icon name="ellipse" slot="start" [style.color]="c.color" class="dot"></ion-icon>-->
-<!--            <ion-label>{{ c.name }}</ion-label>-->
-<!--            <span class="class-count">{{ c.count }}</span>-->
-<!--            <span class="class-pct" [style.color]="c.color">{{ c.pct }}%</span>-->
-<!--          </ion-item>-->
-<!--        </ion-list>-->
+<!--        <div class="donut-wrapper">-->
+<!--          &lt;!&ndash; Donut SVG &ndash;&gt;-->
+<!--          <svg viewBox="0 0 200 200" class="donut-chart">-->
+<!--            <circle-->
+<!--              *ngFor="let seg of donutSegments"-->
+<!--              cx="100" cy="80" r="80"-->
+<!--              fill="none"-->
+<!--              [attr.stroke]="seg.color"-->
+<!--              stroke-width="12"-->
+<!--              [attr.stroke-dasharray]="seg.dash"-->
+<!--              [attr.stroke-dashoffset]="seg.offset"-->
+<!--              transform="rotate(-90 60 60)"-->
+<!--            ></circle>-->
+<!--            <text x="60" y="56" text-anchor="middle" class="donut-center-value">{{ totalObservations }}</text>-->
+<!--            <text x="60" y="72" text-anchor="middle" class="donut-center-label">obs.</text>-->
+<!--          </svg>-->
+
+<!--          &lt;!&ndash; Légende &ndash;&gt;-->
+<!--          <ul class="donut-legend">-->
+<!--            <li *ngFor="let c of classDistribution">-->
+<!--              <ion-icon name="ellipse" [style.color]="c.color" class="dot"></ion-icon>-->
+<!--              <span class="legend-name">{{ c.name }}</span>-->
+<!--              <span class="legend-count">{{ c.count }}</span>-->
+<!--              <span class="legend-pct" [style.color]="c.color">{{ c.pct }}%</span>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
 <!--      </ion-card-content>-->
 <!--    </ion-card>-->
 
-    <!-- Distribution des classes -->
-    <ion-card class="section-card">
-      <ion-card-content>
-        <h3 class="section-title">
-          <ion-icon name="grid-outline"></ion-icon>
-          Distribution des classes
-        </h3>
-
-        <div class="donut-wrapper">
-          <!-- Donut SVG -->
-          <svg viewBox="0 0 200 200" class="donut-chart">
-            <circle
-              *ngFor="let seg of donutSegments"
-              cx="100" cy="80" r="80"
-              fill="none"
-              [attr.stroke]="seg.color"
-              stroke-width="12"
-              [attr.stroke-dasharray]="seg.dash"
-              [attr.stroke-dashoffset]="seg.offset"
-              transform="rotate(-90 60 60)"
-            ></circle>
-            <text x="60" y="56" text-anchor="middle" class="donut-center-value">{{ totalObservations }}</text>
-            <text x="60" y="72" text-anchor="middle" class="donut-center-label">obs.</text>
-          </svg>
-
-          <!-- Légende -->
-          <ul class="donut-legend">
-            <li *ngFor="let c of classDistribution">
-              <ion-icon name="ellipse" [style.color]="c.color" class="dot"></ion-icon>
-              <span class="legend-name">{{ c.name }}</span>
-              <span class="legend-count">{{ c.count }}</span>
-              <span class="legend-pct" [style.color]="c.color">{{ c.pct }}%</span>
-            </li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <!-- GRAPHIQUE -->
+    <!-- GRAPHIQUE IMPORTANCE VARIABLES -->
     <div class="card soft-card">
 
       <div class="card-title">
@@ -148,7 +335,13 @@
         Importance des variables
       </div>
 
-      <canvas id="barChartEtude"></canvas>
+
+      <div class="chart-container">
+
+        <canvas id="barChartEtude"></canvas>
+
+      </div>
+
 
     </div>
 
