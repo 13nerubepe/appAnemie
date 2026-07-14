@@ -421,4 +421,109 @@ ion-content { --background: $bg; }
 
   }
 
+
+
+  .metrics-grid {
+
+    padding: 5px;
+
+  }
+
+
+  .metric-card {
+
+    margin:6px;
+
+    border-radius:18px;
+
+    height:150px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+  }
+
+
+  .metric-card ion-card-content {
+
+    padding:12px 5px;
+
+    text-align:center;
+
+  }
+
+
+
+  /* icônes */
+
+  .metric-icon {
+
+    width:40px;
+    height:40px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
+
+  }
+
+
+  /* valeurs */
+
+  .metric-value {
+
+    font-size:22px;
+
+    font-weight:800;
+
+    margin-top:8px;
+
+  }
+
+
+  .metric-label {
+
+    font-size:13px;
+
+    font-weight:600;
+
+    margin-top:3px;
+
+  }
+
+
+  .metric-model {
+
+    font-size:11px;
+
+    color:#64748b;
+
+  }
+
+
+
+  /* tablette et desktop */
+
+  @media(min-width:768px){
+
+    .metric-card{
+
+      height:180px;
+
+    }
+
+
+    .metric-value{
+
+      font-size:30px;
+
+    }
+
+  }
+
 }
