@@ -1,5 +1,5 @@
 [build]
-command = "npm run build --production"
+command = "npm run build --production && cp public/manifest.webmanifest www/manifest.webmanifest && cp public/icons www/icons -r"
 publish = "www"
 
 [build.environment]

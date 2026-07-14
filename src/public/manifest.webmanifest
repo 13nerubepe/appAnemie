@@ -1,6 +1,6 @@
 {
-  "name": "Anemia AI",
-  "short_name": "Anemia",
+  "name": "app",
+  "short_name": "app",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
