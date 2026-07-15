@@ -53,19 +53,20 @@ export class ModeleComponent implements AfterViewInit {
   // IMPORTANCES VARIABLES
 
   features = [
-    { rank: 1, name: "Anémie de la mère", pct: 11.38, color: "#dc2626" },
-    { rank: 2, name: "Âge de l'enfant", pct: 9.62, color: "#ea580c" },
-    { rank: 3, name: "Indice de richesse", pct: 9.60, color: "#d97706" },
-    { rank: 4, name: "Fièvre", pct: 8.58, color: "#ca8a04" },
-    { rank: 5, name: "Instruction de la mère", pct: 8.26, color: "#65a30d" },
-    { rank: 6, name: "Région", pct: 8.09, color: "#16a34a" },
-    { rank: 7, name: "Âge de la mère", pct: 7.96, color: "#0891b2" },
-    { rank: 8, name: "Milieu de résidence", pct: 7.87, color: "#0284c7" },
-    { rank: 9, name: "Type d'allaitement", pct: 7.83, color: "#2563eb" },
-    { rank: 10, name: "Déparasitage", pct: 7.20, color: "#7c3aed" },
-    { rank: 11, name: "Sexe de l'enfant", pct: 6.88, color: "#9333ea" },
-    { rank: 12, name: "Diarrhée", pct: 6.73, color: "#c026d3" }
+    { rank: 1, name: "Anémie de la mère", pct: 20.56, color: "#dc2626" },
+    { rank: 2, name: "Indice de richesse", pct: 18.08, color: "#ea580c" },
+    { rank: 3, name: "Fièvre", pct: 14.56, color: "#d97706" },
+    { rank: 4, name: "Âge de l'enfant", pct: 8.98, color: "#ca8a04" },
+    { rank: 5, name: "Instruction de la mère", pct: 7.57, color: "#65a30d" },
+    { rank: 6, name: "Type d'allaitement", pct: 5.62, color: "#16a34a" },
+    { rank: 7, name: "Milieu de résidence", pct: 4.59, color: "#0891b2" },
+    { rank: 8, name: "Région", pct: 4.54, color: "#0284c7" },
+    { rank: 9, name: "Déparasitage", pct: 4.33, color: "#2563eb" },
+    { rank: 10, name: "Âge de la mère", pct: 4.23, color: "#7c3aed" },
+    { rank: 11, name: "Sexe de l'enfant", pct: 4.22, color: "#9333ea" },
+    { rank: 12, name: "Diarrhée", pct: 2.71, color: "#c026d3" }
   ];
+
 
   totalObservations = this.classDistribution.reduce((sum, c) => sum + c.count, 0);
 

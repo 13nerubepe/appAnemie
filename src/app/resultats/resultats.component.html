@@ -22,8 +22,8 @@
   <div class="tabs-bar" *ngIf="!erreurDonnees">
     <div class="tab" [class.active]="activeTab === 'diagnostic'"
          (click)="activeTab = 'diagnostic'">Diagnostic</div>
-    <div class="tab" [class.active]="activeTab === 'modeles'"
-         (click)="activeTab = 'modeles'">Modèles</div>
+<!--    <div class="tab" [class.active]="activeTab === 'modeles'"-->
+<!--         (click)="activeTab = 'modeles'">Modèles</div>-->
     <div class="tab" [class.active]="activeTab === 'recos'"
          (click)="activeTab = 'recos'">Recommandations</div>
     <div class="tab" [class.active]="activeTab === 'facteurs'"
@@ -65,7 +65,7 @@
           <div class="bub b1"></div><div class="bub b2"></div>
           <div class="tag">
             <ion-icon name="hardware-chip-outline"></ion-icon>
-            <span>Prédiction IA — Random Forest</span>
+            <span>Prédiction IA — XGBOOST</span>
           </div>
           <p class="b-patient">
             {{ patient?.prenom }} {{ patient?.nom }} ·
@@ -99,7 +99,7 @@
         <div class="card">
           <div class="card-title">
             <ion-icon name="stats-chart-outline"></ion-icon>
-            Probabilités (Random Forest)
+            Probabilités (XGBOOST)
           </div>
           <div class="bar-row" *ngFor="let p of getProbasRF()">
             <span class="bar-label">{{ p.label }}</span>
@@ -128,63 +128,63 @@
 
       </ng-container>
 
-      <!-- ═══ ONGLET 2 : MODÈLES ═══ -->
-      <ng-container *ngIf="activeTab === 'modeles'">
+<!--      &lt;!&ndash; ═══ ONGLET 2 : MODÈLES ═══ &ndash;&gt;-->
+<!--      <ng-container *ngIf="activeTab === 'modeles'">-->
 
-        <div class="card">
-          <div class="card-title">
-            <ion-icon name="git-branch-outline"></ion-icon>
-            Random Forest
-            <span class="best-badge">Prédiction principale</span>
-          </div>
-          <div class="model-result" [ngClass]="getBannerClass()">
-            <strong>{{ resultat?.random_forest?.label }}</strong>
-          </div>
-          <div class="bar-row" *ngFor="let p of getProbasRF()">
-            <span class="bar-label">{{ p.label }}</span>
-            <div class="bar-track">
-              <div class="bar-fill"
-                   [style.width.%]="p.pct"
-                   [style.background]="p.color"></div>
-            </div>
-            <span class="bar-pct">{{ p.pct }}%</span>
-          </div>
-          <div class="model-stats">
-            <span>Accuracy : 47.2%</span>
-            <span>F1 Macro : 40.6%</span>
-          </div>
-        </div>
+<!--        <div class="card">-->
+<!--          <div class="card-title">-->
+<!--            <ion-icon name="git-branch-outline"></ion-icon>-->
+<!--            Random Forest-->
+<!--            <span class="best-badge">Prédiction principale</span>-->
+<!--          </div>-->
+<!--          <div class="model-result" [ngClass]="getBannerClass()">-->
+<!--            <strong>{{ resultat?.random_forest?.label }}</strong>-->
+<!--          </div>-->
+<!--          <div class="bar-row" *ngFor="let p of getProbasRF()">-->
+<!--            <span class="bar-label">{{ p.label }}</span>-->
+<!--            <div class="bar-track">-->
+<!--              <div class="bar-fill"-->
+<!--                   [style.width.%]="p.pct"-->
+<!--                   [style.background]="p.color"></div>-->
+<!--            </div>-->
+<!--            <span class="bar-pct">{{ p.pct }}%</span>-->
+<!--          </div>-->
+<!--          <div class="model-stats">-->
+<!--            <span>Accuracy : 47.2%</span>-->
+<!--            <span>F1 Macro : 40.6%</span>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="card">
-          <div class="card-title">
-            <ion-icon name="trending-up-outline"></ion-icon>
-            Régression Ordinale Multiniveau (CLMM)
-            <span class="best-badge neutral-badge">Référence scientifique</span>
-          </div>
-          <div class="model-result neutral">
-            <strong>{{ resultat?.ordinal?.label }}</strong>
-          </div>
-          <div class="bar-row" *ngFor="let p of getProbasOrd()">
-            <span class="bar-label">{{ p.label }}</span>
-            <div class="bar-track">
-              <div class="bar-fill"
-                   [style.width.%]="p.pct"
-                   [style.background]="p.color"></div>
-            </div>
-            <span class="bar-pct">{{ p.pct }}%</span>
-          </div>
-          <div class="model-stats">
-            <span>logLik : −4031.8</span>
-            <span>F1 Macro : 36.8%</span>
-          </div>
-        </div>
+<!--        <div class="card">-->
+<!--          <div class="card-title">-->
+<!--            <ion-icon name="trending-up-outline"></ion-icon>-->
+<!--            Régression Ordinale Multiniveau (CLMM)-->
+<!--            <span class="best-badge neutral-badge">Référence scientifique</span>-->
+<!--          </div>-->
+<!--          <div class="model-result neutral">-->
+<!--            <strong>{{ resultat?.ordinal?.label }}</strong>-->
+<!--          </div>-->
+<!--          <div class="bar-row" *ngFor="let p of getProbasOrd()">-->
+<!--            <span class="bar-label">{{ p.label }}</span>-->
+<!--            <div class="bar-track">-->
+<!--              <div class="bar-fill"-->
+<!--                   [style.width.%]="p.pct"-->
+<!--                   [style.background]="p.color"></div>-->
+<!--            </div>-->
+<!--            <span class="bar-pct">{{ p.pct }}%</span>-->
+<!--          </div>-->
+<!--          <div class="model-stats">-->
+<!--            <span>logLik : −4031.8</span>-->
+<!--            <span>F1 Macro : 36.8%</span>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="accord" [ngClass]="getAccordClass()">
-          <ion-icon [name]="getAccordIcon()"></ion-icon>
-          <span>{{ getAccordMsg() }}</span>
-        </div>
+<!--        <div class="accord" [ngClass]="getAccordClass()">-->
+<!--          <ion-icon [name]="getAccordIcon()"></ion-icon>-->
+<!--          <span>{{ getAccordMsg() }}</span>-->
+<!--        </div>-->
 
-      </ng-container>
+<!--      </ng-container>-->
 
       <!-- ═══ ONGLET 3 : RECOMMANDATIONS ═══ -->
       <ng-container *ngIf="activeTab === 'recos'">
@@ -232,7 +232,7 @@
         <div class="card">
           <div class="card-title">
             <ion-icon name="analytics-outline"></ion-icon>
-            Importance des variables (Random Forest)
+            Importance des variables (XGBOOST)
           </div>
           <div class="bar-row" *ngFor="let f of featuresIA">
             <span class="bar-label">{{ f.name }}</span>
@@ -245,29 +245,6 @@
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-title">
-            <ion-icon name="stats-chart-outline"></ion-icon>
-            Facteurs de risque — CLMM (Odds Ratios)
-          </div>
-          <div class="facteur-row" *ngFor="let f of getFacteursRisque()">
-            <div class="facteur-info">
-              <span class="facteur-label">{{ f.label }}</span>
-              <span class="facteur-or"
-                    [ngClass]="f.type === 'risque' ? 'or-risque' : 'or-protecteur'">
-                OR = {{ f.or }}
-              </span>
-            </div>
-            <span class="facteur-badge"
-                  [ngClass]="f.type === 'risque' ? 'badge-risque' : 'badge-protecteur'">
-              {{ f.type === 'risque' ? 'Risque' : 'Protecteur' }}
-            </span>
-          </div>
-          <p class="empty-msg"
-             *ngIf="getFacteursRisque().length === 0">
-            Aucun facteur significatif détecté pour ce patient.
-          </p>
-        </div>
 
         <div class="insight">
           <div class="insight-icon">

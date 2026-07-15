@@ -43,19 +43,22 @@ export class ResultatsComponent implements OnInit {
   recommandations: any[] = [];
 
   featuresIA = [
-    { name: 'Âge enfant (mois)',     pct: 25, color: '#1a237e' },
-    { name: 'Âge mère',              pct: 21, color: '#283593' },
-    { name: 'Région',                pct: 13, color: '#3949ab' },
-    { name: 'Indice richesse',        pct: 8,  color: '#5c6bc0' },
-    { name: 'Niveau instruction',     pct: 6,  color: '#7986cb' },
-    { name: 'Anémie mère',           pct: 5,  color: '#9fa8da' },
-    { name: 'Sexe enfant',           pct: 5,  color: '#c5cae9' },
-    { name: 'Déparasitage',          pct: 4,  color: '#bbdefb' },
-    { name: 'Type allaitement',      pct: 4,  color: '#b3e5fc' },
-    { name: 'Fièvre',                pct: 3,  color: '#e1f5fe' },
-    { name: 'Milieu résidence',      pct: 3,  color: '#e8eaf6' },
-    { name: 'Diarrhée',              pct: 3,  color: '#ede7f6' },
+    { name: 'Anémie mère',        pct: 20.56, color: '#dc2626' }, // 1
+    { name: 'Indice richesse',    pct: 18.08, color: '#ea580c' }, // 2
+    { name: 'Fièvre',             pct: 14.56, color: '#d97706' }, // 3
+    { name: 'Âge enfant (mois)',  pct: 8.98,  color: '#ca8a04' }, // 4
+    { name: 'Niveau instruction', pct: 7.57,  color: '#65a30d' }, // 5
+    { name: 'Type allaitement',   pct: 5.62,  color: '#16a34a' }, // 6
+    { name: 'Milieu résidence',   pct: 4.59,  color: '#0891b2' }, // 7
+    { name: 'Région',             pct: 4.54,  color: '#0284c7' }, // 8
+    { name: 'Déparasitage',       pct: 4.33,  color: '#2563eb' }, // 9
+    { name: 'Âge mère',           pct: 4.23,  color: '#7c3aed' }, // 10
+    { name: 'Sexe enfant',        pct: 4.22,  color: '#9333ea' }, // 11
+    { name: 'Diarrhée',           pct: 2.71,  color: '#c026d3' }  // 12
+
+
   ];
+
 
   constructor() {
     addIcons({
