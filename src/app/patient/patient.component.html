@@ -93,7 +93,6 @@
                    (click)="setFievre(0)">Non</div>
             </div>
             <p class="status-text danger" *ngIf="patient.fievre === 1">
-              Fièvre présente — facteur significatif (OR = 1.31)
             </p>
             <p class="status-text success" *ngIf="patient.fievre === 0">
               Pas de fièvre
@@ -109,7 +108,7 @@
                    (click)="setDeparasitage(0)">Non</div>
             </div>
             <p class="status-text success" *ngIf="patient.deparasitage === 1">
-              Déparasité récemment — facteur protecteur (OR = 0.90)
+
             </p>
             <p class="status-text danger" *ngIf="patient.deparasitage === 0">
               Non déparasité
@@ -149,7 +148,7 @@
               <ion-select-option [value]="3">Anémie sévère</ion-select-option>
             </ion-select>
             <p class="status-text danger" *ngIf="patient.anemie_mere && patient.anemie_mere > 0">
-              Anémie maternelle — facteur de risque le plus fort (OR = 1.50)
+
             </p>
           </div>
 
